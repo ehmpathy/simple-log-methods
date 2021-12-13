@@ -19,7 +19,7 @@ const getLogLevelFromEnvVar = (): LogLevel | null => {
   return logLevelEnvVar;
 };
 
-export const getMinimumLogLevelForEnvironment = (): LogLevel => {
+export const getRecommendedMinimalLogLevelForEnvironment = (): LogLevel => {
   // if the LOG_LEVEL env var is defined, then use what is specified by that
   const logLevelFromEnvVar = getLogLevelFromEnvVar();
   if (logLevelFromEnvVar) return logLevelFromEnvVar;

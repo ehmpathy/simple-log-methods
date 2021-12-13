@@ -8,7 +8,11 @@ a simple and opinionated logging library. plays well with aws lambda + cloudwatc
   - i.e., `log.debug`, `log.info`, `log.warn`, and `log.error`
 - filter which levels of log to emit
   - i.e., choose based on environment whether to emit all logs or skip some of the logs
-- utilizes `console.warn` and `console.log` under the hood, to ensure that the aws cloudwatch requestId is present on each log message automatically
+- utilizes `console.warn` and `console.log` under the hood
+  - which ensures that the aws cloudwatch requestId is present on each log message automatically
+- formats log metadata based on environment
+  - i.e., stringify in local environments to reduce visual noise
+  - i.e., don't stringify in aws-lambda environment for optimal cloudwatch parsing
 
 
 # installation
@@ -19,23 +23,12 @@ npm install --save simple-leveled-log-methods
 
 # usage
 
-### an init file
+### init
 ```ts
 // e.g., in `src/utils/log.ts
-import { generateLogMethods, LOG_LEVEL } from 'simple-leveled-log-methods';
+import { generateLogMethods } from 'simple-leveled-log-methods';
 
-/*
-  define the minimal log level
-*/
-const defaultLogLevel = process.env.AWS_LAMBDA_FUNCTION_NAME
-  ? LOG_LEVEL.DEBUG // if AWS_LAMBA_FUNCTION_NAME is set, then we're in lambda env and should default to transport all messages to console (and ultimately cloudwatch)
-  : LOG_LEVEL.INFO; // otherwise, we're running locally and should only default to show info and above
-const minimalLogLevel = (process.env.LOG_LEVEL as LOG_LEVEL) || defaultLogLevel; // override the default, if specified
-
-/*
-  define the log methods
-*/
-export const log = generateLogMethods({ minimalLogLevel });
+export const log = generateLogMethods();
 ```
 
 ### use in code
