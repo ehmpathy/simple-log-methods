@@ -1,6 +1,6 @@
 {
   "name": "simple-leveled-log-methods",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "a simple and opinionated logging library. plays well with aws lambda + cloudwatch.",
   "author": "UladKasach @uladkasach",
   "license": "MIT",
