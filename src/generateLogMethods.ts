@@ -1,8 +1,8 @@
 import { LogLevel } from './constants';
 import { generateLogMethod, LogMethod } from './generateLogMethod';
-import { getMinimumLogLevelForEnvironment } from './getMinimumLogLevelForEnvironment';
+import { getRecommendedMinimalLogLevelForEnvironment } from './getRecommendedMinimalLogLevelForEnvironment';
 
-export interface SimpleLeveledLogMethods {
+export interface LogMethods {
   /**
    * `error` level logs are used to indicate a critical and urgent failure that requires immediate resolution
    * - these logs are often associated with someone on-call being notified immediately, regardless of the time or day
@@ -34,11 +34,10 @@ export interface SimpleLeveledLogMethods {
 
 /**
  * define how to generate the log methods
+ * - allows you to specify the minimal log level to use for your application
+ * - defaults to recommended levels for the environment
  */
-export const generateLogMethods = (): { [index in LogLevel]: LogMethod } => {
-  // define the min log level for environment
-  const minimalLogLevel = getMinimumLogLevelForEnvironment();
-
+export const generateLogMethods = ({ minimalLogLevel = getRecommendedMinimalLogLevelForEnvironment() }: { minimalLogLevel?: LogLevel } = {}): LogMethods => {
   // generate the methods
   return {
     error: generateLogMethod({ level: LogLevel.ERROR, minimalLogLevel }),
@@ -47,8 +46,3 @@ export const generateLogMethods = (): { [index in LogLevel]: LogMethod } => {
     debug: generateLogMethod({ level: LogLevel.DEBUG, minimalLogLevel }),
   };
 };
-
-/**
- * simple leveled log methods
- */
-export const log: SimpleLeveledLogMethods = generateLogMethods();
