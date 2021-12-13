@@ -1,10 +1,11 @@
-import { LOG_LEVEL } from './constants';
+import { LogLevel } from './constants';
+import { formatMetadataForEnvironment } from './formatMetadataForEnvironment';
 
 /*
   define priority order of log levels and make it easy to ask questions about
 */
-const logLevelPriorityOrder = [LOG_LEVEL.ERROR, LOG_LEVEL.WARN, LOG_LEVEL.INFO, LOG_LEVEL.DEBUG];
-const aIsEqualOrMoreImportantThanB = ({ a, b }: { a: LOG_LEVEL; b: LOG_LEVEL }) => logLevelPriorityOrder.indexOf(a) - logLevelPriorityOrder.indexOf(b) <= 0;
+const logLevelPriorityOrder = [LogLevel.ERROR, LogLevel.WARN, LogLevel.INFO, LogLevel.DEBUG];
+const aIsEqualOrMoreImportantThanB = ({ a, b }: { a: LogLevel; b: LogLevel }) => logLevelPriorityOrder.indexOf(a) - logLevelPriorityOrder.indexOf(b) <= 0;
 
 /*
   define how to generate a log method
@@ -14,18 +15,18 @@ const aIsEqualOrMoreImportantThanB = ({ a, b }: { a: LOG_LEVEL; b: LOG_LEVEL }) 
     - define the transport of the message (console.log / console.warn)
 */
 export type LogMethod = (message: string, metadata: any) => void;
-export const generateLogMethod = ({ level, minimalLogLevel }: { level: LOG_LEVEL; minimalLogLevel: LOG_LEVEL }) => {
+export const generateLogMethod = ({ level, minimalLogLevel }: { level: LogLevel; minimalLogLevel: LogLevel }) => {
   return (message: string, metadata?: object) => {
     if (aIsEqualOrMoreImportantThanB({ a: level, b: minimalLogLevel })) {
       // 1. determine the console level (i.e., use warn if we can to make the logs stand out more)
-      const consoleMethod = aIsEqualOrMoreImportantThanB({ a: level, b: LOG_LEVEL.WARN }) ? console.warn : console.log; // tslint:disable-line no-console
+      const consoleMethod = aIsEqualOrMoreImportantThanB({ a: level, b: LogLevel.WARN }) ? console.warn : console.log; // tslint:disable-line no-console
 
       // 2. output the message to console, which will get picked up by cloudwatch when deployed lambda is invoked
       consoleMethod({
         level,
         timestamp: new Date().toISOString(),
         message,
-        metadata: JSON.stringify(metadata),
+        metadata: formatMetadataForEnvironment(metadata),
       });
     }
   };

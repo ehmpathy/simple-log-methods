@@ -1,3 +1,3 @@
-export { LOG_LEVEL } from './constants';
-export { generateLogMethods } from './generateLogMethods';
+export { LogLevel } from './constants';
 export { LogMethod } from './generateLogMethod';
+export { log, SimpleLeveledLogMethods } from './generateLogMethods';
