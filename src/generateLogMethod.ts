@@ -1,5 +1,5 @@
 import { LogLevel } from './constants';
-import { formatMetadataForEnvironment } from './formatMetadataForEnvironment';
+import { formatLogContentsForEnvironment } from './formatLogContentsForEnvironment';
 
 /*
   define priority order of log levels and make it easy to ask questions about
@@ -18,16 +18,18 @@ export type LogMethod = (message: string, metadata: any) => void;
 export const generateLogMethod = ({ level, minimalLogLevel }: { level: LogLevel; minimalLogLevel: LogLevel }) => {
   return (message: string, metadata?: object) => {
     if (aIsEqualOrMoreImportantThanB({ a: level, b: minimalLogLevel })) {
-      // 1. determine the console level (i.e., use warn if we can to make the logs stand out more)
+      // determine the console level (i.e., use warn if we can to make the logs stand out more)
       const consoleMethod = aIsEqualOrMoreImportantThanB({ a: level, b: LogLevel.WARN }) ? console.warn : console.log; // tslint:disable-line no-console
 
-      // 2. output the message to console, which will get picked up by cloudwatch when deployed lambda is invoked
-      consoleMethod({
-        level,
-        timestamp: new Date().toISOString(),
-        message,
-        metadata: formatMetadataForEnvironment(metadata),
-      });
+      // output the message to console, which will get picked up by cloudwatch when deployed lambda is invoked
+      consoleMethod(
+        formatLogContentsForEnvironment({
+          level,
+          timestamp: new Date().toISOString(),
+          message,
+          metadata,
+        }),
+      );
     }
   };
 };

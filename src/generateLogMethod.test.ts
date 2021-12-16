@@ -1,10 +1,5 @@
 import { LogLevel } from './constants';
-import { formatMetadataForEnvironment } from './formatMetadataForEnvironment';
 import { generateLogMethod } from './generateLogMethod';
-
-jest.mock('./formatMetadataForEnvironment');
-const formatMetadataForEnvironmentMock = formatMetadataForEnvironment as jest.Mock;
-formatMetadataForEnvironmentMock.mockReturnValue('__FORMATTED_METADATA__');
 
 describe('generateLogMethod', () => {
   beforeEach(() => jest.clearAllMocks());
@@ -29,7 +24,7 @@ describe('generateLogMethod', () => {
       expect.objectContaining({
         level: LogLevel.ERROR,
         message: 'testMessage',
-        metadata: '__FORMATTED_METADATA__',
+        metadata: JSON.stringify({ nested: { object: true } }),
       }),
     );
     expect(spy.mock.calls[0][0]).toHaveProperty('timestamp');
