@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.2](https://www.github.com/uladkasach/simple-leveled-log-methods/compare/v0.2.1...v0.2.2) (2021-12-16)
+
+
+### Bug Fixes
+
+* **lambda:** ensure that lambda log messages are stringified for ideal cloudwatch parsing ([#18](https://www.github.com/uladkasach/simple-leveled-log-methods/issues/18)) ([9b5f87d](https://www.github.com/uladkasach/simple-leveled-log-methods/commit/9b5f87dc55b1c6de18e5bc9ec907f68a905e5bfa))
+
 ### [0.2.1](https://www.github.com/uladkasach/simple-leveled-log-methods/compare/v0.2.0...v0.2.1) (2021-12-13)
 
 
