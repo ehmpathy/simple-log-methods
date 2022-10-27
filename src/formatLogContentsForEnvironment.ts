@@ -34,6 +34,16 @@ export const formatLogContentsForEnvironment = ({
     });
   }
 
+  // if its a web-browser environment, then dont stringify the contents - nor the metadata - to make sure log is fully accessible through console devtools
+  if (env === SupportedEnvironment.WEB_BROWSER) {
+    return {
+      level,
+      timestamp,
+      message,
+      metadata,
+    };
+  }
+
   // if it was not one of the above, we have not supported this environment yet
   throw new Error('unsupported environment detected. this should never occur - and is a bug within simple-leveled-log-methods'); // fail fast
 };

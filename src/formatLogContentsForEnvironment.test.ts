@@ -21,4 +21,11 @@ describe('formatMetadataForEnvironment', () => {
     const formatted = formatLogContentsForEnvironment(logContents);
     expect(formatted).toEqual(JSON.stringify(logContents));
   });
+  it('should not stringify the contents nor the metadata if in web browser environment', () => {
+    identifyEnvironmentMock.mockReturnValue(SupportedEnvironment.WEB_BROWSER);
+    const metadata = { name: 'bob', likes: ['oranges', 'apples'] };
+    const logContents = { level: LogLevel.INFO, timestamp: new Date().toISOString(), message: 'hello world!', metadata };
+    const formatted = formatLogContentsForEnvironment(logContents);
+    expect(formatted).toEqual(logContents);
+  });
 });
