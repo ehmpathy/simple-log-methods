@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/ehmpathy/simple-leveled-log-methods/compare/v0.2.2...v0.3.0) (2022-10-27)
+
+
+### Features
+
+* **environments:** support web-browser as an environment for ideal devtools console logs ([#23](https://www.github.com/ehmpathy/simple-leveled-log-methods/issues/23)) ([a5afc45](https://www.github.com/ehmpathy/simple-leveled-log-methods/commit/a5afc4531ee3ec7b06b5703851cd406d6e381f98))
+
 ### [0.2.2](https://www.github.com/uladkasach/simple-leveled-log-methods/compare/v0.2.1...v0.2.2) (2021-12-16)
 
 
