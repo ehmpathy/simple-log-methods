@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/ehmpathy/simple-leveled-log-methods/compare/v0.3.0...v0.4.0) (2024-04-27)
+
+
+### Features
+
+* **env:** support LOG_DEBUG=true as an alias for LOG_LEVEL=debug ([#31](https://www.github.com/ehmpathy/simple-leveled-log-methods/issues/31)) ([28d3b94](https://www.github.com/ehmpathy/simple-leveled-log-methods/commit/28d3b946701f74f0db9b4c236fcb4d0327189be8))
+
 ## [0.3.0](https://www.github.com/ehmpathy/simple-leveled-log-methods/compare/v0.2.2...v0.3.0) (2022-10-27)
 
 
