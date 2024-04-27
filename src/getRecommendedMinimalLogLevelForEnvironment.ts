@@ -2,21 +2,24 @@ import { isOfLogLevel, LogLevel, SupportedEnvironment } from './constants';
 import { identifyEnvironment } from './identifyEnvironment';
 
 const getLogLevelFromEnvVar = (): LogLevel | null => {
-  // grab the log level env var
+  // if LOG_LEVEL was specified, use that
   const logLevelEnvVar = process.env.LOG_LEVEL || null; // cast falsy values to null
+  if (logLevelEnvVar) {
+    // if the log level is valid, use it
+    if (isOfLogLevel(logLevelEnvVar)) return logLevelEnvVar;
 
-  // if log level wasn't defined, null
-  if (!logLevelEnvVar) return null;
-
-  // if log level wasn't defined w/ a valid value, warn and null
-  if (!isOfLogLevel(logLevelEnvVar)) {
-    // tslint:disable-next-line: no-console
+    // otherwise, warn and continue to attempt other options
     console.warn(`environmental variable LOG_LEVEL was set to an invalid value: '${logLevelEnvVar}'. using the default instead`);
-    return null;
   }
 
-  // if it was valid, then return it
-  return logLevelEnvVar;
+  // if LOG_DEBUG was specified as true, use that (it's a common intuitive alias)
+  const logDebugEnvVar = process.env.LOG_DEBUG || null;
+  if (logDebugEnvVar === 'true') return LogLevel.DEBUG;
+
+  // todo: consider supporting other LOG_${level} options
+
+  // otherwise, null
+  return null;
 };
 
 export const getRecommendedMinimalLogLevelForEnvironment = (): LogLevel => {
