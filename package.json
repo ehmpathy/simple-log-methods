@@ -1,6 +1,6 @@
 {
   "name": "simple-leveled-log-methods",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "author": "ehmpathy",
   "description": "a simple and opinionated logging library. plays well with aws lambda + cloudwatch.",
   "repository": "ehmpathy/simple-leveled-log-methods",
