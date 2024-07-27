@@ -37,7 +37,9 @@ export interface LogMethods {
  * - allows you to specify the minimal log level to use for your application
  * - defaults to recommended levels for the environment
  */
-export const generateLogMethods = ({ minimalLogLevel = getRecommendedMinimalLogLevelForEnvironment() }: { minimalLogLevel?: LogLevel } = {}): LogMethods => {
+export const generateLogMethods = ({
+  minimalLogLevel = getRecommendedMinimalLogLevelForEnvironment(),
+}: { minimalLogLevel?: LogLevel } = {}): LogMethods => {
   // generate the methods
   return {
     error: generateLogMethod({ level: LogLevel.ERROR, minimalLogLevel }),
