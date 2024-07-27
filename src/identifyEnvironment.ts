@@ -10,7 +10,8 @@ export const identifyEnvironment = (): SupportedEnvironment => {
   if (isAwsLambdaEnvironment) return SupportedEnvironment.AWS_LAMBDA;
 
   // check if its a browser environment
-  const isWebBrowserEnvironment = typeof window !== 'undefined' && typeof window.document !== 'undefined'; // if both are defined, then its a browser
+  const isWebBrowserEnvironment =
+    typeof window !== 'undefined' && typeof window.document !== 'undefined'; // if both are defined, then its a browser
   if (isWebBrowserEnvironment) return SupportedEnvironment.WEB_BROWSER;
 
   // default to local env

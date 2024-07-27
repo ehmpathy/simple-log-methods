@@ -9,7 +9,9 @@ const getLogLevelFromEnvVar = (): LogLevel | null => {
     if (isOfLogLevel(logLevelEnvVar)) return logLevelEnvVar;
 
     // otherwise, warn and continue to attempt other options
-    console.warn(`environmental variable LOG_LEVEL was set to an invalid value: '${logLevelEnvVar}'. using the default instead`);
+    console.warn(
+      `environmental variable LOG_LEVEL was set to an invalid value: '${logLevelEnvVar}'. using the default instead`,
+    );
   }
 
   // if LOG_DEBUG was specified as true, use that (it's a common intuitive alias)

@@ -1,4 +1,4 @@
-import { createIsOfEnum } from 'simple-type-guards';
+import { createIsOfEnum } from 'type-fns';
 
 /**
  * define the supported log levels
