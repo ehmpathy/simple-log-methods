@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/ehmpathy/simple-leveled-log-methods/compare/v0.4.0...v0.4.1) (2024-07-27)
+
+
+### Bug Fixes
+
+* **practs:** bump practs to latest best ([#33](https://github.com/ehmpathy/simple-leveled-log-methods/issues/33)) ([0b7b531](https://github.com/ehmpathy/simple-leveled-log-methods/commit/0b7b531900c6ef2495820e606ffe27531ab09e99))
+
 ## [0.4.0](https://www.github.com/ehmpathy/simple-leveled-log-methods/compare/v0.3.0...v0.4.0) (2024-04-27)
 
 
