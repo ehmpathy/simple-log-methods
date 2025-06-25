@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://github.com/ehmpathy/simple-log-methods/compare/v0.4.1...v0.5.0) (2025-06-25)
+
+
+### Features
+
+* **pkg:** update package name to drop leveled term ([880491c](https://github.com/ehmpathy/simple-log-methods/commit/880491c56f174c3c03fb277be1c01e1a26b9f0b3))
+
+
+### Bug Fixes
+
+* **practs:** bump to latest best ([4ca1641](https://github.com/ehmpathy/simple-log-methods/commit/4ca1641a37887ca23af5f7f6ca39585c04557d9f))
+
 ## [0.4.1](https://github.com/ehmpathy/simple-leveled-log-methods/compare/v0.4.0...v0.4.1) (2024-07-27)
 
 
