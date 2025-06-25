@@ -1,4 +1,4 @@
-# simple-leveled-log-methods
+# simple-log-methods
 
 a simple and opinionated logging library. plays well with aws lambda + cloudwatch.
 
@@ -18,7 +18,7 @@ a simple and opinionated logging library. plays well with aws lambda + cloudwatc
 # installation
 
 ```
-npm install --save simple-leveled-log-methods
+npm install --save simple-log-methods
 ```
 
 # usage
@@ -26,7 +26,7 @@ npm install --save simple-leveled-log-methods
 ### init
 ```ts
 // e.g., in `src/utils/log.ts
-import { generateLogMethods } from 'simple-leveled-log-methods';
+import { generateLogMethods } from 'simple-log-methods';
 
 export const log = generateLogMethods();
 ```

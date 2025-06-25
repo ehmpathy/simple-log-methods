@@ -1,10 +1,10 @@
 {
-  "name": "simple-leveled-log-methods",
+  "name": "simple-log-methods",
   "version": "0.4.1",
   "author": "ehmpathy",
   "description": "a simple and opinionated logging library. plays well with aws lambda + cloudwatch.",
-  "repository": "ehmpathy/simple-leveled-log-methods",
-  "homepage": "https://github.com/ehmpathy/simple-leveled-log-methods",
+  "repository": "ehmpathy/simple-log-methods",
+  "homepage": "https://github.com/ehmpathy/simple-log-methods",
   "keywords": [
     "log",
     "logs",
@@ -16,7 +16,7 @@
     "cloudwatch",
     "requestId"
   ],
-  "bugs": "https://github.com/ehmpathy/simple-leveled-log-methods/issues",
+  "bugs": "https://github.com/ehmpathy/simple-log-methods/issues",
   "license": "MIT",
   "main": "dist/index.js",
   "engines": {
