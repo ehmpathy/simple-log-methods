@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://github.com/ehmpathy/simple-log-methods/compare/v0.5.0...v0.6.0) (2025-07-04)
+
+
+### Features
+
+* **context:** add withLogTrail and ContextLogTrail ([0177c1a](https://github.com/ehmpathy/simple-log-methods/commit/0177c1abe6ad80912614dd29c55b09cccb1db887))
+
+
+### Bug Fixes
+
+* **practs:** bump to latest best ([9f8ef69](https://github.com/ehmpathy/simple-log-methods/commit/9f8ef696a7abf9a482402d2ee59acf794e84d654))
+
 ## [0.5.0](https://github.com/ehmpathy/simple-log-methods/compare/v0.4.1...v0.5.0) (2025-06-25)
 
 
