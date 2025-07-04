@@ -1,4 +1,4 @@
-import { LogLevel } from './constants';
+import { LogLevel } from '../domain/constants';
 import { generateLogMethod, LogMethod } from './generateLogMethod';
 import { getRecommendedMinimalLogLevelForEnvironment } from './getRecommendedMinimalLogLevelForEnvironment';
 

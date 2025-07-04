@@ -1,3 +1,4 @@
-export { LogLevel } from './constants';
-export { LogMethod } from './generateLogMethod';
-export { generateLogMethods, LogMethods } from './generateLogMethods';
+export { withLogTrail } from './logic/withLogTrail';
+export { LogLevel } from './domain/constants';
+export { LogMethod } from './logic/generateLogMethod';
+export { generateLogMethods, LogMethods } from './logic/generateLogMethods';

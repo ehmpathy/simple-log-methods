@@ -1,4 +1,4 @@
-import { LogLevel } from './constants';
+import { LogLevel } from '../domain/constants';
 import { generateLogMethod } from './generateLogMethod';
 
 describe('generateLogMethod', () => {
