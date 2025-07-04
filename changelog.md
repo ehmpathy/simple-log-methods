@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/ehmpathy/simple-log-methods/compare/v0.6.0...v0.6.1) (2025-07-04)
+
+
+### Bug Fixes
+
+* **context:** track trail within context log scope ([265273c](https://github.com/ehmpathy/simple-log-methods/commit/265273c73436e9ea690f4c9b77d53a9567cb2f5c))
+
 ## [0.6.0](https://github.com/ehmpathy/simple-log-methods/compare/v0.5.0...v0.6.0) (2025-07-04)
 
 
