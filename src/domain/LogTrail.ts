@@ -9,14 +9,17 @@ export type LogTrail = string[];
 
 export interface ContextLogTrail {
   /**
-   * .what = the log methods which can be used
+   * .what = the log context which can be used; methods, trail, etc
    */
-  log: LogMethods & { _orig?: LogMethods }; // todo: support ".scope" as a first class attribute of log methods to avoid having to track original log object
-
-  /**
-   * .what = the log trail which has been collected
-   */
-  trail?: LogTrail;
+  log: LogMethods & {
+    // todo: support ".scope" as a first class attribute of log methods to avoid having to track original log object
+    _orig?: LogMethods;
+  } & {
+    /**
+     * .what = the log trail which has been collected
+     */
+    trail?: LogTrail;
+  };
 }
 
 export type HasContextLogTrail<T extends Procedure> =

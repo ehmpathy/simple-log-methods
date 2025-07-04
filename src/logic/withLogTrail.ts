@@ -7,7 +7,7 @@ import {
 } from 'domain-glossary-procedure';
 import { Literalize, isAPromise } from 'type-fns';
 
-import { ContextLogTrail } from '../domain/LogTrail';
+import { ContextLogTrail, LogTrail } from '../domain/LogTrail';
 import { LogLevel } from '../domain/constants';
 import { LogMethod } from './generateLogMethod';
 import { LogMethods } from './generateLogMethods';
@@ -122,8 +122,16 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
     const startTimeInMilliseconds = new Date().getTime();
 
     // define the context.log method that will be given to the logic
-    const logMethodsWithContext: LogMethods & { _orig: LogMethods } = {
+    const logMethodsWithContext: LogMethods & { _orig: LogMethods } & {
+      trail: LogTrail;
+    } = {
+      // add the trail
+      trail: [...(context.log.trail ?? []), name],
+
+      // track the orig logger
       _orig: context.log?._orig ?? context.log,
+
+      // add the scoped methods
       debug: (
         message: Parameters<LogMethod>[0],
         metadata: Parameters<LogMethod>[1],
@@ -146,7 +154,6 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
     const result: ProcedureOutput<typeof logic> = logic(input, {
       ...context,
       log: logMethodsWithContext,
-      trail: [...(context.trail ?? []), name],
     } as TContext);
 
     // if the result was a promise, log when that method crosses the reporting threshold, to identify which procedures are slow
