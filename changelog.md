@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/ehmpathy/simple-log-methods/compare/v0.6.1...v0.6.2) (2025-11-24)
+
+
+### Bug Fixes
+
+* **type:** allow metadata to be optional ([bd8e22e](https://github.com/ehmpathy/simple-log-methods/commit/bd8e22eb11ed6927ee4eb65d9b966916a2de30c6))
+
 ## [0.6.1](https://github.com/ehmpathy/simple-log-methods/compare/v0.6.0...v0.6.1) (2025-07-04)
 
 
