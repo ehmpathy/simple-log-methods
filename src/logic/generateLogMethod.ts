@@ -20,7 +20,7 @@ const aIsEqualOrMoreImportantThanB = ({ a, b }: { a: LogLevel; b: LogLevel }) =>
     - define the format of the log message (json w/ level, timestamp, message, metadata)
     - define the transport of the message (console.log / console.warn)
 */
-export type LogMethod = (message: string, metadata: any) => void;
+export type LogMethod = (message: string, metadata?: any) => void;
 export const generateLogMethod = ({
   level,
   minimalLogLevel,
