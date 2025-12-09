@@ -1,5 +1,5 @@
 import { LogLevel } from '../domain/constants';
-import { generateLogMethod, LogMethod } from './generateLogMethod';
+import { generateLogMethod, type LogMethod } from './generateLogMethod';
 import { getRecommendedMinimalLogLevelForEnvironment } from './getRecommendedMinimalLogLevelForEnvironment';
 
 export interface LogMethods {
@@ -39,7 +39,9 @@ export interface LogMethods {
  */
 export const generateLogMethods = ({
   minimalLogLevel = getRecommendedMinimalLogLevelForEnvironment(),
-}: { minimalLogLevel?: LogLevel } = {}): LogMethods => {
+}: {
+  minimalLogLevel?: LogLevel;
+} = {}): LogMethods => {
   // generate the methods
   return {
     error: generateLogMethod({ level: LogLevel.ERROR, minimalLogLevel }),

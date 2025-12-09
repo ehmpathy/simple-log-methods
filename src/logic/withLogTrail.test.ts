@@ -1,5 +1,5 @@
 import { LogLevel } from '../domain/constants';
-import { LogMethods } from './generateLogMethods';
+import type { LogMethods } from './generateLogMethods';
 import { withLogTrail } from './withLogTrail';
 
 const createMockLogMethods = (): LogMethods & {

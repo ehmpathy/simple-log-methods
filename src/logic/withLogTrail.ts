@@ -1,16 +1,15 @@
-import { UnexpectedCodePathError } from '@ehmpathy/error-fns';
-import { toMilliseconds, UniDuration } from '@ehmpathy/uni-time';
-import {
+import { toMilliseconds, type UniDuration } from '@ehmpathy/uni-time';
+import type {
   ProcedureContext,
   ProcedureInput,
   ProcedureOutput,
 } from 'domain-glossary-procedure';
-import { Literalize, isAPromise } from 'type-fns';
-
-import { ContextLogTrail, LogTrail } from '../domain/LogTrail';
-import { LogLevel } from '../domain/constants';
-import { LogMethod } from './generateLogMethod';
-import { LogMethods } from './generateLogMethods';
+import { UnexpectedCodePathError } from 'helpful-errors';
+import { isAPromise, type Literalize } from 'type-fns';
+import type { LogLevel } from '../domain/constants';
+import type { ContextLogTrail, LogTrail } from '../domain/LogTrail';
+import type { LogMethod } from './generateLogMethod';
+import type { LogMethods } from './generateLogMethods';
 
 const noOp = (...input: any) => input;
 const omitContext = (...input: any) => input[0]; // standard pattern for args = [input, context]
