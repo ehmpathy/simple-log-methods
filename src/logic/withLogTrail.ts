@@ -53,9 +53,17 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
        * specifies the level to log the trail with
        *
        * note:
-       * - defaults to .debug // todo: debug to .trail
+       * - defaults input & output logs to level .debug // todo: debug to .trail
+       * - defaults error logs to level .warn
+       * - error level is only overridable via the object form (to prevent accidental downgrade of error logs)
        */
-      level?: LogLevel;
+      level?:
+        | LogLevel
+        | {
+            input?: LogLevel;
+            output?: LogLevel;
+            error?: LogLevel;
+          };
 
       /**
        * what of the input to log
@@ -97,8 +105,21 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
       { declaredName, naturalName: name },
     );
 
+  // extract the log levels per operation
+  const logLevelInput: Literalize<LogLevel> =
+    (typeof logOptions?.level === 'object'
+      ? logOptions.level.input
+      : logOptions?.level) ?? 'debug';
+  const logLevelOutput: Literalize<LogLevel> =
+    (typeof logOptions?.level === 'object'
+      ? logOptions.level.output
+      : logOptions?.level) ?? 'debug';
+  const logLevelError: Literalize<LogLevel> =
+    // note: error level is only overridable via the object form, to prevent `level: 'info'` from accidentally downgrading error logs
+    (typeof logOptions?.level === 'object' ? logOptions.level.error : null) ??
+    'warn';
+
   // extract the log methods
-  const logTrailLevel: Literalize<LogLevel> = logOptions?.level ?? 'debug';
   const logInputMethod = logOptions?.input ?? omitContext;
   const logOutputMethod = logOptions?.output ?? noOp;
   const logErrorMethod = logOptions?.error ?? pickErrorMessage;
@@ -114,7 +135,7 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
     context: ProcedureContext<typeof logic>,
   ): ProcedureOutput<typeof logic> => {
     // now log the input
-    context.log.debug(`${name}.input`, {
+    context.log[logLevelInput](`${name}.input`, {
       input: logInputMethod(input, context),
     });
 
@@ -150,17 +171,39 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
       ) => context.log.error(`${name}.progress: ${message}`, metadata),
     };
 
-    // now execute the method
-    const result: ProcedureOutput<typeof logic> = logic(input, {
-      ...context,
-      log: logMethodsWithContext,
-    } as TContext);
+    // define what to do when we have an error
+    const logError = (error: Error) => {
+      const endTimeInMilliseconds = new Date().getTime();
+      const durationInMilliseconds =
+        endTimeInMilliseconds - startTimeInMilliseconds;
+      const durationInSeconds = roundToHundredths(durationInMilliseconds / 1e3); // https://stackoverflow.com/a/53970656/3068233
+      context.log[logLevelError](`${name}.error`, {
+        input: logInputMethod(input, context),
+        output: logErrorMethod(error),
+        ...(durationInSeconds >= durationReportingThresholdInSeconds
+          ? { duration: `${durationInSeconds} sec` } // only include the duration if the threshold was crossed
+          : {}),
+      });
+    };
+
+    // now execute the method, wrapped to catch sync errors
+    let result: ProcedureOutput<typeof logic>;
+    try {
+      result = logic(input, {
+        ...context,
+        log: logMethodsWithContext,
+      } as TContext);
+    } catch (error) {
+      // log the error for sync functions that throw
+      if (error instanceof Error) logError(error);
+      throw error;
+    }
 
     // if the result was a promise, log when that method crosses the reporting threshold, to identify which procedures are slow
     if (isAPromise(result)) {
       // define how to log the breach, on breach
       const onDurationBreach = () =>
-        context.log[logTrailLevel](`${name}.duration.breach`, {
+        context.log[logLevelOutput](`${name}.duration.breach`, {
           input: logInputMethod(input, context),
           already: { duration: `${durationReportingThresholdInSeconds} sec` },
         });
@@ -185,24 +228,9 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
       const durationInMilliseconds =
         endTimeInMilliseconds - startTimeInMilliseconds;
       const durationInSeconds = roundToHundredths(durationInMilliseconds / 1e3); // https://stackoverflow.com/a/53970656/3068233
-      context.log[logTrailLevel](`${name}.output`, {
+      context.log[logLevelOutput](`${name}.output`, {
         input: logInputMethod(input, context),
         output: logOutputMethod(output),
-        ...(durationInSeconds >= durationReportingThresholdInSeconds
-          ? { duration: `${durationInSeconds} sec` } // only include the duration if the threshold was crossed
-          : {}),
-      });
-    };
-
-    // define what to do when we have an error
-    const logError = (error: Error) => {
-      const endTimeInMilliseconds = new Date().getTime();
-      const durationInMilliseconds =
-        endTimeInMilliseconds - startTimeInMilliseconds;
-      const durationInSeconds = roundToHundredths(durationInMilliseconds / 1e3); // https://stackoverflow.com/a/53970656/3068233
-      context.log[logTrailLevel](`${name}.error`, {
-        input: logInputMethod(input, context),
-        output: logErrorMethod(error),
         ...(durationInSeconds >= durationReportingThresholdInSeconds
           ? { duration: `${durationInSeconds} sec` } // only include the duration if the threshold was crossed
           : {}),
