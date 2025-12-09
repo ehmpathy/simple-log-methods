@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.5](https://github.com/ehmpathy/simple-log-methods/compare/v0.6.4...v0.6.5) (2025-12-09)
+
+
+### Bug Fixes
+
+* **rhachet:** repair mechanic symlinks ([#42](https://github.com/ehmpathy/simple-log-methods/issues/42)) ([f16660e](https://github.com/ehmpathy/simple-log-methods/commit/f16660e6d99b1da6b6b247ce9f21234836058b85))
+* **rhachet:** repair mechanic symlinks ([#44](https://github.com/ehmpathy/simple-log-methods/issues/44)) ([392305c](https://github.com/ehmpathy/simple-log-methods/commit/392305c18e8da7333decd4c836a1dd8de480478d))
+
 ## [0.6.4](https://github.com/ehmpathy/simple-log-methods/compare/v0.6.3...v0.6.4) (2025-12-09)
 
 
