@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.4](https://github.com/ehmpathy/simple-log-methods/compare/v0.6.3...v0.6.4) (2025-12-09)
+
+
+### Bug Fixes
+
+* **practs:** bump to latest best ([#40](https://github.com/ehmpathy/simple-log-methods/issues/40)) ([2994aa5](https://github.com/ehmpathy/simple-log-methods/commit/2994aa5a0c25d3d1b97041fa3d9cb96801c585ff))
+
 ## [0.6.3](https://github.com/ehmpathy/simple-log-methods/compare/v0.6.2...v0.6.3) (2025-12-09)
 
 
