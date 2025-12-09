@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/ehmpathy/simple-log-methods/compare/v0.6.2...v0.6.3) (2025-12-09)
+
+
+### Bug Fixes
+
+* **wrapper:** log errors at .warn level by default via withLogTrail ([2ac41ab](https://github.com/ehmpathy/simple-log-methods/commit/2ac41ab697130abccb996032e379e89783de6c34))
+
 ## [0.6.2](https://github.com/ehmpathy/simple-log-methods/compare/v0.6.1...v0.6.2) (2025-11-24)
 
 
