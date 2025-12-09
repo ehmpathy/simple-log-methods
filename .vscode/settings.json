@@ -1,0 +1,5 @@
+{
+  "terraform.languageServer.enable": false,
+  "yaml.validate": false,
+  "cSpell.enabled": false
+}
