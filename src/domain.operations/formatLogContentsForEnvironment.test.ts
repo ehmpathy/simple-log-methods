@@ -1,5 +1,6 @@
+import { SupportedEnvironment } from '@src/domain.objects/constants';
+
 import { LogLevel } from '..';
-import { SupportedEnvironment } from '../domain/constants';
 import { formatLogContentsForEnvironment } from './formatLogContentsForEnvironment';
 import { identifyEnvironment } from './identifyEnvironment';
 

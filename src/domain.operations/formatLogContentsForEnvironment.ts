@@ -1,4 +1,8 @@
-import { type LogLevel, SupportedEnvironment } from '../domain/constants';
+import {
+  type LogLevel,
+  SupportedEnvironment,
+} from '@src/domain.objects/constants';
+
 import { identifyEnvironment } from './identifyEnvironment';
 
 export const formatLogContentsForEnvironment = ({

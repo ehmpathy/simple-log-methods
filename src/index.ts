@@ -1,10 +1,10 @@
-export { LogLevel } from './domain/constants';
+export { LogLevel } from './domain.objects/constants';
 export type {
   ContextLogTrail,
   HasContextLogTrail,
   LogTrail,
-} from './domain/LogTrail';
-export type { LogMethod } from './logic/generateLogMethod';
-export type { LogMethods } from './logic/generateLogMethods';
-export { generateLogMethods } from './logic/generateLogMethods';
-export { withLogTrail } from './logic/withLogTrail';
+} from './domain.objects/LogTrail';
+export type { LogMethod } from './domain.operations/generateLogMethod';
+export type { LogMethods } from './domain.operations/generateLogMethods';
+export { generateLogMethods } from './domain.operations/generateLogMethods';
+export { withLogTrail } from './domain.operations/withLogTrail';

@@ -1,6 +1,6 @@
 import type { Procedure, ProcedureContext } from 'domain-glossary-procedure';
 
-import type { LogMethods } from '../logic/generateLogMethods';
+import type { LogMethods } from '@src/domain.operations/generateLogMethods';
 
 /**
  * .what = the procedure invocation trail

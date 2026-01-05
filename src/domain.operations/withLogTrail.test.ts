@@ -1,4 +1,5 @@
-import { LogLevel } from '../domain/constants';
+import { LogLevel } from '@src/domain.objects/constants';
+
 import type { LogMethods } from './generateLogMethods';
 import { withLogTrail } from './withLogTrail';
 

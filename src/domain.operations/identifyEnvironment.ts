@@ -1,4 +1,4 @@
-import { SupportedEnvironment } from '../domain/constants';
+import { SupportedEnvironment } from '@src/domain.objects/constants';
 
 /**
  * identifies the supported environment that this is being run in, as best as possible
