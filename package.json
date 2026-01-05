@@ -2,7 +2,7 @@
   "name": "simple-log-methods",
   "author": "ehmpathy",
   "description": "a simple and opinionated logging library. plays well with aws lambda + cloudwatch.",
-  "version": "0.6.8",
+  "version": "0.6.9",
   "repository": "ehmpathy/simple-log-methods",
   "homepage": "https://github.com/ehmpathy/simple-log-methods",
   "keywords": [
