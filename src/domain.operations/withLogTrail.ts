@@ -1,10 +1,10 @@
-import { toMilliseconds, type UniDuration } from '@ehmpathy/uni-time';
 import type {
   ProcedureContext,
   ProcedureInput,
   ProcedureOutput,
 } from 'domain-glossary-procedure';
 import { UnexpectedCodePathError } from 'helpful-errors';
+import { type IsoDuration, toMilliseconds } from 'iso-time';
 import { isAPromise, type Literalize } from 'type-fns';
 
 import type { LogLevel } from '@src/domain.objects/constants';
@@ -86,7 +86,7 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
      * specifies the threshold after which a duration will be included on the output log
      */
     duration?: {
-      threshold: UniDuration;
+      threshold: IsoDuration;
     };
   },
 ): typeof logic => {
