@@ -1,4 +1,5 @@
-import { LogLevel } from '../domain/constants';
+import { LogLevel } from '@src/domain.objects/constants';
+
 import { generateLogMethod } from './generateLogMethod';
 
 describe('generateLogMethod', () => {

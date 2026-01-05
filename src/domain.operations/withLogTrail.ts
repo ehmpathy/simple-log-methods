@@ -6,8 +6,10 @@ import type {
 } from 'domain-glossary-procedure';
 import { UnexpectedCodePathError } from 'helpful-errors';
 import { isAPromise, type Literalize } from 'type-fns';
-import type { LogLevel } from '../domain/constants';
-import type { ContextLogTrail, LogTrail } from '../domain/LogTrail';
+
+import type { LogLevel } from '@src/domain.objects/constants';
+import type { ContextLogTrail, LogTrail } from '@src/domain.objects/LogTrail';
+
 import type { LogMethod } from './generateLogMethod';
 import type { LogMethods } from './generateLogMethods';
 

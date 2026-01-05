@@ -2,7 +2,8 @@ import {
   isOfLogLevel,
   LogLevel,
   SupportedEnvironment,
-} from '../domain/constants';
+} from '@src/domain.objects/constants';
+
 import { identifyEnvironment } from './identifyEnvironment';
 
 const getLogLevelFromEnvVar = (): LogLevel | null => {
