@@ -11,9 +11,6 @@ importers:
       '@ehmpathy/error-fns':
         specifier: ^1.3.7
         version: 1.3.7
-      '@ehmpathy/uni-time':
-        specifier: 1.9.6
-        version: 1.9.6
       domain-glossary-procedure:
         specifier: ^1.0.0
         version: 1.0.0
@@ -23,6 +20,9 @@ importers:
       helpful-errors:
         specifier: 1.5.3
         version: 1.5.3
+      iso-time:
+        specifier: ^1.10.1
+        version: 1.10.1
       type-fns:
         specifier: 1.21.0
         version: 1.21.0
@@ -3115,6 +3115,10 @@ packages:
 
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
+
+  iso-time@1.10.1:
+    resolution: {integrity: sha512-3BQe0H4ZPM7O1w3TIxwoRSCf9gQ/h+dzcbOEn8Dos3OByQ0mLRV1tqnk0hwzjnXYNgXjWHxF2dHZVq2rdfpnWg==}
+    engines: {node: '>=8.0.0'}
 
   isomorphic-git@1.36.1:
     resolution: {integrity: sha512-fC8SRT8MwoaXDK8G4z5biPEbqf2WyEJUb2MJ2ftSd39/UIlsnoZxLGux+lae0poLZO4AEcx6aUVOh5bV+P8zFA==}
@@ -8357,6 +8361,13 @@ snapshots:
   isarray@2.0.5: {}
 
   isexe@2.0.0: {}
+
+  iso-time@1.10.1:
+    dependencies:
+      date-fns: 3.6.0
+      domain-glossaries: 1.0.0
+      helpful-errors: 1.5.3
+      type-fns: 1.21.0
 
   isomorphic-git@1.36.1:
     dependencies:
