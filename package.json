@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "@ehmpathy/error-fns": "^1.3.7",
-    "@ehmpathy/uni-time": "^1.7.4",
+    "@ehmpathy/uni-time": "^1.9.4",
     "domain-glossary-procedure": "^1.0.0",
     "domain-objects": "0.31.9",
     "helpful-errors": "1.5.3",
