@@ -8,6 +8,8 @@ ignores:
   - husky
   - if-env
   - rhachet
+  - rhachet-brains-anthropic
+  - rhachet-brains-xai
   - "@tsconfig/node20"
   - "@tsconfig/strictest"
   - "@biomejs/biome"
