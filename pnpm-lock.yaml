@@ -15,8 +15,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       domain-objects:
-        specifier: 0.31.9
-        version: 0.31.9
+        specifier: 0.31.10
+        version: 0.31.10
       helpful-errors:
         specifier: 1.7.2
         version: 1.7.2
@@ -65,7 +65,7 @@ importers:
         version: 0.47.14(@huggingface/transformers@4.0.0)(@tensorflow/tfjs@4.22.0(seedrandom@3.0.5))(@types/node@22.15.21)(declapract@0.13.11(@huggingface/transformers@4.0.0)(@tensorflow/tfjs@4.22.0(seedrandom@3.0.5))(@types/node@22.15.21)(zod@4.3.4))(esbuild@0.25.12)(zod@4.3.4)
       declastruct:
         specifier: 1.7.3
-        version: 1.7.3(domain-objects@0.31.9)
+        version: 1.7.3(domain-objects@0.31.10)
       declastruct-github:
         specifier: 1.3.0
         version: 1.3.0(@huggingface/transformers@4.0.0)(@tensorflow/tfjs@4.22.0(seedrandom@3.0.5))(@types/node@22.15.21)(zod@4.3.4)
@@ -2746,6 +2746,10 @@ packages:
 
   domain-objects@0.31.0:
     resolution: {integrity: sha512-x7G/Ig4vtvvL/Z7z+b2D2hwM+ZCr/NBKmujbKi9JA07KEVhI/yzHUPtAfiS6pkIODGQuEEqYicY/HMsUECimKw==}
+    engines: {node: '>=8.0.0'}
+
+  domain-objects@0.31.10:
+    resolution: {integrity: sha512-5Bk53LAVvcLBPeTGaBKBdvXwSzpfKk2t9BDnPP4eSuENl7qdXf+eVk3zeSfxPUygKSgZPN1z1o4QQZIcw85vKw==}
     engines: {node: '>=8.0.0'}
 
   domain-objects@0.31.3:
@@ -7880,12 +7884,12 @@ snapshots:
       - ws
       - zod
 
-  declastruct@1.7.3(domain-objects@0.31.9):
+  declastruct@1.7.3(domain-objects@0.31.10):
     dependencies:
       bottleneck: 2.19.5
       chalk: 5.4.1
       commander: 14.0.2
-      domain-objects: 0.31.9
+      domain-objects: 0.31.10
       helpful-errors: 1.5.3
       jest-diff: 30.0.2
       rhachet-artifact-git: 1.1.3
@@ -7989,8 +7993,15 @@ snapshots:
       '@types/yup': 0.29.14
       change-case: 4.1.2
       cross-sha256: 1.2.0
-      helpful-errors: 1.5.3
+      helpful-errors: 1.7.2
       type-fns: 1.21.0
+
+  domain-objects@0.31.10:
+    dependencies:
+      change-case: 4.1.2
+      helpful-errors: 1.7.2
+      type-fns: 1.21.0
+      uuid-fns: 1.1.3
 
   domain-objects@0.31.3:
     dependencies:
@@ -10176,7 +10187,7 @@ snapshots:
 
   type-fns@1.20.2:
     dependencies:
-      helpful-errors: 1.5.3
+      helpful-errors: 1.7.2
 
   type-fns@1.21.0:
     dependencies:
