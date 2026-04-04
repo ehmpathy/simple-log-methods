@@ -18,14 +18,14 @@ importers:
         specifier: 0.31.10
         version: 0.31.10
       helpful-errors:
-        specifier: 1.7.2
-        version: 1.7.2
+        specifier: 1.7.3
+        version: 1.7.3
       iso-time:
         specifier: ^1.11.5
         version: 1.11.5
       type-fns:
-        specifier: 1.21.0
-        version: 1.21.0
+        specifier: 1.21.2
+        version: 1.21.2
     devDependencies:
       '@biomejs/biome':
         specifier: 2.3.8
@@ -3151,6 +3151,10 @@ packages:
     resolution: {integrity: sha512-zdTjedWRSUEj7b0wFn2M+NnmYZ65XwKQ4PXdrlrGvioOh/QSw+9pdlEUL4yEPI3LX57ULkfDEGbd7xkn70TcCw==}
     engines: {node: '>=8.0.0'}
 
+  helpful-errors@1.7.3:
+    resolution: {integrity: sha512-bMjY01YetPP86E4ra36cn7KXN+l/ov0mdww92J/jCxeMjH9KLJRuvJajHoElYo1oweqYZhQo8n3qjYPbANb5sg==}
+    engines: {node: '>=8.0.0'}
+
   homedir-polyfill@1.0.3:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
     engines: {node: '>=0.10.0'}
@@ -4578,6 +4582,10 @@ packages:
 
   type-fns@1.21.0:
     resolution: {integrity: sha512-LT5QCbGx2/ANPggKQ2NkibnJ7qNpufUpaoHjGfAwEYrkJSO32MGezWHPsXdHQp9u6fKZEVYNPAHvMXRLSDMDcg==}
+    engines: {node: '>=8.0.0'}
+
+  type-fns@1.21.2:
+    resolution: {integrity: sha512-9/E7WpYVjJxIisH2lSpHnqwetk6SxVx2M+EI1dv0SMp3ztB6Qg4zrYwURepJHyt/zNRTb7XoGoo1H5Bxq9wI5Q==}
     engines: {node: '>=8.0.0'}
 
   typescript@5.4.5:
@@ -8027,7 +8035,7 @@ snapshots:
       '@types/yup': 0.29.14
       change-case: 4.1.2
       cross-sha256: 1.2.0
-      type-fns: 1.21.0
+      type-fns: 1.21.2
 
   domain-objects@0.31.0:
     dependencies:
@@ -8035,8 +8043,8 @@ snapshots:
       '@types/yup': 0.29.14
       change-case: 4.1.2
       cross-sha256: 1.2.0
-      helpful-errors: 1.7.2
-      type-fns: 1.21.0
+      helpful-errors: 1.7.3
+      type-fns: 1.21.2
 
   domain-objects@0.31.10:
     dependencies:
@@ -8521,6 +8529,10 @@ snapshots:
   helpful-errors@1.7.2:
     dependencies:
       type-fns: 1.21.0
+
+  helpful-errors@1.7.3:
+    dependencies:
+      type-fns: 1.21.2
 
   homedir-polyfill@1.0.3:
     dependencies:
@@ -9980,7 +9992,7 @@ snapshots:
       '@ehmpathy/error-fns': 1.3.7
       '@ehmpathy/uni-time': 1.9.6
       domain-glossary-procedure: 1.0.0
-      type-fns: 1.21.0
+      type-fns: 1.21.2
 
   simple-log-methods@0.6.10:
     dependencies:
@@ -9996,7 +10008,7 @@ snapshots:
       '@ehmpathy/error-fns': 1.3.7
       '@ehmpathy/uni-time': 1.9.6
       domain-glossary-procedure: 1.0.0
-      type-fns: 1.21.0
+      type-fns: 1.21.2
 
   simple-log-methods@0.6.9:
     dependencies:
@@ -10261,11 +10273,16 @@ snapshots:
 
   type-fns@1.20.2:
     dependencies:
-      helpful-errors: 1.7.2
+      helpful-errors: 1.7.3
 
   type-fns@1.21.0:
     dependencies:
-      helpful-errors: 1.5.3
+      helpful-errors: 1.7.3
+
+  type-fns@1.21.2:
+    dependencies:
+      domain-objects: 0.31.10
+      helpful-errors: 1.7.3
 
   typescript@5.4.5: {}
 
@@ -10394,7 +10411,7 @@ snapshots:
       serde-fns: 1.3.1
       simple-in-memory-cache: 0.4.0
       simple-on-disk-cache: 1.7.3
-      type-fns: 1.21.0
+      type-fns: 1.21.2
     transitivePeerDependencies:
       - aws-crt
 
@@ -10422,7 +10439,7 @@ snapshots:
       serde-fns: 1.3.1
       simple-in-memory-cache: 0.4.0
       simple-on-disk-cache: 1.7.3
-      type-fns: 1.21.0
+      type-fns: 1.21.2
       visualogic: 1.3.3
     transitivePeerDependencies:
       - aws-crt
@@ -10434,7 +10451,7 @@ snapshots:
       serde-fns: 1.3.1
       simple-in-memory-cache: 0.4.0
       simple-on-disk-cache: 1.7.3
-      type-fns: 1.21.0
+      type-fns: 1.21.2
     transitivePeerDependencies:
       - aws-crt
 
