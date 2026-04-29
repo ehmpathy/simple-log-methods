@@ -50,6 +50,6 @@ export const formatLogContentsForEnvironment = ({
 
   // if it was not one of the above, we have not supported this environment yet
   throw new Error(
-    'unsupported environment detected. this should never occur - and is a bug within simple-log-methods',
+    'unsupported environment detected. this should never occur - and is a bug within sdk-logs',
   ); // fail fast
 };

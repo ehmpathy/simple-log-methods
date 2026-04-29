@@ -1,4 +1,4 @@
-# simple-log-methods
+# sdk-logs
 
 a simple and opinionated logging library. plays well with aws lambda + cloudwatch.
 
@@ -18,7 +18,7 @@ a simple and opinionated logging library. plays well with aws lambda + cloudwatc
 # installation
 
 ```
-npm install --save simple-log-methods
+npm install --save sdk-logs
 ```
 
 # usage
@@ -26,7 +26,7 @@ npm install --save simple-log-methods
 ### init
 ```ts
 // e.g., in `src/utils/log.ts
-import { generateLogMethods } from 'simple-log-methods';
+import { generateLogMethods } from 'sdk-logs';
 
 export const log = generateLogMethods();
 ```
