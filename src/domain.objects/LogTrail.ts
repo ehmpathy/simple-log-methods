@@ -1,11 +1,23 @@
 import type { Procedure, ProcedureContext } from 'domain-glossary-procedure';
 
-import type { LogMethods } from '@src/domain.operations/generateLogMethods';
+import type { LogMethods } from '@src/domain.operations/genLogMethods';
 
 /**
- * .what = the procedure invocation trail
+ * .what = the procedure invocation trail with external identifier
  */
-export type LogTrail = string[];
+export interface LogTrail {
+  /**
+   * .what = external identifier for request correlation
+   * .why = enables log correlation across a single request
+   */
+  exid: string | null;
+
+  /**
+   * .what = the procedure call stack
+   * .why = tracks call depth through withLogTrail wraps
+   */
+  stack: string[];
+}
 
 export interface ContextLogTrail {
   /**
@@ -14,11 +26,16 @@ export interface ContextLogTrail {
   log: LogMethods & {
     // todo: support ".scope" as a first class attribute of log methods to avoid having to track original log object
     _orig?: LogMethods;
-  } & {
+
     /**
      * .what = the log trail which has been collected
      */
     trail?: LogTrail;
+
+    /**
+     * .what = environment context for log output
+     */
+    env?: { commit: string };
   };
 }
 

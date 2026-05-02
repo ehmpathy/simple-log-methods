@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`journey: all log levels include trail given: [case1] context with trail and env when: [t0] debug is called then: output includes trail 1`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "debug",
+  "message": "debug message",
+  "metadata": "{"detail":"verbose"}",
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [],
+  },
+}
+`;
+
+exports[`journey: all log levels include trail given: [case1] context with trail and env when: [t1] info is called then: output includes trail 1`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "info",
+  "message": "info message",
+  "metadata": "{"status":"ok"}",
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [],
+  },
+}
+`;
+
+exports[`journey: all log levels include trail given: [case1] context with trail and env when: [t2] warn is called then: output includes trail 1`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "warn",
+  "message": "warn message",
+  "metadata": "{"issue":"slow response"}",
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [],
+  },
+}
+`;
+
+exports[`journey: all log levels include trail given: [case1] context with trail and env when: [t3] error is called then: output includes trail 1`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "error",
+  "message": "error message",
+  "metadata": "{"err":"connection failed"}",
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [],
+  },
+}
+`;

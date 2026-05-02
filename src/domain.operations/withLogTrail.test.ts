@@ -1,6 +1,6 @@
 import { LogLevel } from '@src/domain.objects/constants';
 
-import type { LogMethods } from './generateLogMethods';
+import type { LogMethods } from './genLogMethods';
 import { withLogTrail } from './withLogTrail';
 
 const createMockLogMethods = (): LogMethods & {
@@ -13,6 +13,7 @@ const createMockLogMethods = (): LogMethods & {
   info: jest.fn(),
   warn: jest.fn(),
   error: jest.fn(),
+  _: Object.freeze({ level: LogLevel.DEBUG }),
 });
 
 describe('withLogTrail', () => {

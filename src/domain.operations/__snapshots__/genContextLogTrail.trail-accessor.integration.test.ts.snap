@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`journey: trail state accessible for serialization given: [case1] context with trail when: [t0] context.log.trail is accessed then: returns current trail for cross-service pass 1`] = `
+{
+  "exid": "req_abc123",
+  "stack": [
+    "processOrder",
+  ],
+}
+`;

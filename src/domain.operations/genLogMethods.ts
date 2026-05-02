@@ -31,6 +31,11 @@ export interface LogMethods {
    * - when choosing to log something with a log level of "debug", you are saying that someone will only be interested in this information when debugging
    */
   debug: LogMethod;
+
+  /**
+   * .what = internal config for log methods
+   */
+  readonly _: Readonly<{ level: LogLevel }>;
 }
 
 /**
@@ -38,7 +43,7 @@ export interface LogMethods {
  * - allows you to specify the minimal log level to use for your application
  * - defaults to recommended levels for the environment
  */
-export const generateLogMethods = ({
+export const genLogMethods = ({
   minimalLogLevel = getRecommendedMinimalLogLevelForEnvironment(),
 }: {
   minimalLogLevel?: LogLevel;
@@ -49,5 +54,6 @@ export const generateLogMethods = ({
     warn: generateLogMethod({ level: LogLevel.WARN, minimalLogLevel }),
     info: generateLogMethod({ level: LogLevel.INFO, minimalLogLevel }),
     debug: generateLogMethod({ level: LogLevel.DEBUG, minimalLogLevel }),
+    _: Object.freeze({ level: minimalLogLevel }),
   };
 };

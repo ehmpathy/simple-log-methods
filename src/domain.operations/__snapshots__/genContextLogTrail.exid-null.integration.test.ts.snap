@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`journey: exid unknown at entry point given: [case1] background job without request id when: [t0] context created with null exid then: logs work without exid field 1`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "info",
+  "message": "job started",
+  "metadata": "{"jobType":"cleanup"}",
+  "timestamp": "[masked]",
+  "trail": {
+    "stack": [],
+  },
+}
+`;

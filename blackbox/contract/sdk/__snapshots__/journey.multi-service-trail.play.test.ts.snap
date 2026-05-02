@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`journey: multi-service trail propagation given: [case1] service A invokes service B when: [t0] service A logs at entry then: log has trail.exid with empty stack 1`] = `
+{
+  "env": {
+    "commit": "svc-a-commit",
+  },
+  "level": "info",
+  "message": "service A received request",
+  "metadata": undefined,
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [],
+  },
+}
+`;
+
+exports[`journey: multi-service trail propagation given: [case1] service A invokes service B when: [t1] service A calls wrapped procedure then: procedure log has procedure name in stack 1`] = `
+{
+  "env": {
+    "commit": "svc-a-commit",
+  },
+  "level": "info",
+  "message": "processOrder.progress: process order",
+  "metadata": "{"orderId":"ord_456"}",
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [
+      "processOrder",
+    ],
+  },
+}
+`;
+
+exports[`journey: multi-service trail propagation given: [case1] service A invokes service B when: [t2] service A serializes trail for service B then: trail state is accessible 1`] = `
+{
+  "exid": "req_abc123",
+  "stack": [],
+}
+`;
+
+exports[`journey: multi-service trail propagation given: [case1] service A invokes service B when: [t3] service B receives trail and creates context then: service B logs share same exid with inherited stack 1`] = `
+{
+  "env": {
+    "commit": "svc-b-commit",
+  },
+  "level": "info",
+  "message": "service B received request",
+  "metadata": undefined,
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [
+      "processOrder",
+    ],
+  },
+}
+`;
+
+exports[`journey: multi-service trail propagation given: [case1] service A invokes service B when: [t4] service B calls its own wrapped procedure then: stack shows cross-service path 1`] = `
+{
+  "env": {
+    "commit": "svc-b-commit",
+  },
+  "level": "info",
+  "message": "chargePayment.progress: charge card",
+  "metadata": "{"orderId":"ord_456"}",
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [
+      "processOrder",
+      "chargePayment",
+    ],
+  },
+}
+`;
+
+exports[`journey: multi-service trail propagation given: [case1] service A invokes service B when: [t5] service B logs completion then: log shares same exid as service A 1`] = `
+{
+  "env": {
+    "commit": "svc-b-commit",
+  },
+  "level": "info",
+  "message": "service B complete",
+  "metadata": undefined,
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [
+      "processOrder",
+    ],
+  },
+}
+`;
+
+exports[`journey: multi-service trail propagation given: [case1] service A invokes service B when: [t6] service A logs completion after service B returns then: log shares same exid with empty stack 1`] = `
+{
+  "env": {
+    "commit": "svc-a-commit",
+  },
+  "level": "info",
+  "message": "service A complete",
+  "metadata": undefined,
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [],
+  },
+}
+`;
