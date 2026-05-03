@@ -7,11 +7,11 @@ import { UnexpectedCodePathError } from 'helpful-errors';
 import { type IsoDuration, toMilliseconds } from 'iso-time';
 import { isAPromise, type Literalize } from 'type-fns';
 
-import type { LogLevel } from '@src/domain.objects/constants';
+import { LogLevel } from '@src/domain.objects/constants';
 import type { ContextLogTrail, LogTrail } from '@src/domain.objects/LogTrail';
 
-import type { LogMethod } from './generateLogMethod';
-import type { LogMethods } from './generateLogMethods';
+import { generateLogMethod, type LogMethod } from './generateLogMethod';
+import type { LogMethods } from './genLogMethods';
 
 const noOp = (...input: any) => input;
 const omitContext = (...input: any) => input[0]; // standard pattern for args = [input, context]
@@ -143,33 +143,74 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
     // begin tracking duration
     const startTimeInMilliseconds = new Date().getTime();
 
+    // build the updated trail: preserve exid, append name to stack
+    const updatedTrail: LogTrail = {
+      exid: context.log.trail?.exid ?? null,
+      stack: [...(context.log.trail?.stack ?? []), name],
+    };
+
+    // extract env from context (top-level property)
+    const env = context.log.env;
+
+    // use level from context
+    const minimalLogLevel = context.log._.level;
+
+    // create base log methods with updated trail
+    const baseDebug = generateLogMethod({
+      level: LogLevel.DEBUG,
+      minimalLogLevel,
+      trail: updatedTrail,
+      env,
+    });
+    const baseInfo = generateLogMethod({
+      level: LogLevel.INFO,
+      minimalLogLevel,
+      trail: updatedTrail,
+      env,
+    });
+    const baseWarn = generateLogMethod({
+      level: LogLevel.WARN,
+      minimalLogLevel,
+      trail: updatedTrail,
+      env,
+    });
+    const baseError = generateLogMethod({
+      level: LogLevel.ERROR,
+      minimalLogLevel,
+      trail: updatedTrail,
+      env,
+    });
+
     // define the context.log method that will be given to the logic
     const logMethodsWithContext: LogMethods & { _orig: LogMethods } & {
       trail: LogTrail;
+      env?: { commit: string };
     } = {
-      // add the trail
-      trail: [...(context.log.trail ?? []), name],
+      // add the trail, env, and config
+      trail: updatedTrail,
+      env,
+      _: Object.freeze({ level: minimalLogLevel }),
 
       // track the orig logger
       _orig: context.log?._orig ?? context.log,
 
-      // add the scoped methods
+      // add the scoped methods with message prefix
       debug: (
         message: Parameters<LogMethod>[0],
         metadata: Parameters<LogMethod>[1],
-      ) => context.log.debug(`${name}.progress: ${message}`, metadata),
+      ) => baseDebug(`${name}.progress: ${message}`, metadata),
       info: (
         message: Parameters<LogMethod>[0],
         metadata: Parameters<LogMethod>[1],
-      ) => context.log.info(`${name}.progress: ${message}`, metadata),
+      ) => baseInfo(`${name}.progress: ${message}`, metadata),
       warn: (
         message: Parameters<LogMethod>[0],
         metadata: Parameters<LogMethod>[1],
-      ) => context.log.warn(`${name}.progress: ${message}`, metadata),
+      ) => baseWarn(`${name}.progress: ${message}`, metadata),
       error: (
         message: Parameters<LogMethod>[0],
         metadata: Parameters<LogMethod>[1],
-      ) => context.log.error(`${name}.progress: ${message}`, metadata),
+      ) => baseError(`${name}.progress: ${message}`, metadata),
     };
 
     // define what to do when we have an error
@@ -200,29 +241,6 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
       throw error;
     }
 
-    // if the result was a promise, log when that method crosses the reporting threshold, to identify which procedures are slow
-    if (isAPromise(result)) {
-      // define how to log the breach, on breach
-      const onDurationBreach = () =>
-        context.log[logLevelOutput](`${name}.duration.breach`, {
-          input: logInputMethod(input, context),
-          already: { duration: `${durationReportingThresholdInSeconds} sec` },
-        });
-
-      // define a timeout which will trigger on duration threshold
-      const onBreachTrigger = setTimeout(
-        onDurationBreach,
-        durationReportingThresholdInSeconds * 1000,
-      );
-
-      // remove the timeout when the operation completes, to prevent logging if completes before duration
-      void result
-        .finally(() => clearTimeout(onBreachTrigger))
-        .catch(() => {
-          // do nothing when there's an error; just catch it, to ensure it doesn't get propagated further as an uncaught exception
-        });
-    }
-
     // define what to do when we have output
     const logOutput = (output: Awaited<ProcedureOutput<typeof logic>>) => {
       const endTimeInMilliseconds = new Date().getTime();
@@ -238,9 +256,24 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
       });
     };
 
-    // if result is a promise, ensure we log after the output resolves
-    if (isAPromise(result))
+    // if the result was a promise, log when that method crosses the threshold, to identify which procedures are slow
+    if (isAPromise(result)) {
+      // define how to log the breach, on breach
+      const onDurationBreach = () =>
+        context.log[logLevelOutput](`${name}.duration.breach`, {
+          input: logInputMethod(input, context),
+          already: { duration: `${durationReportingThresholdInSeconds} sec` },
+        });
+
+      // define a timeout which will trigger on duration threshold
+      const onBreachTrigger = setTimeout(
+        onDurationBreach,
+        durationReportingThresholdInSeconds * 1000,
+      );
+
+      // clear timeout when promise settles, then log output or error
       return result
+        .finally(() => clearTimeout(onBreachTrigger))
         .then((output: Awaited<ProcedureOutput<typeof logic>>) => {
           logOutput(output);
           return output;
@@ -249,8 +282,9 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
           logError(error);
           throw error;
         }) as TOutput;
+    }
 
-    // otherwise, its not a promise, so its done, so log now and return the result
+    // otherwise, not a promise, so done now — log and return the result
     logOutput(result as Awaited<ProcedureOutput<typeof logic>>);
     return result;
   };

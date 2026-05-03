@@ -1,4 +1,5 @@
 import { LogLevel } from '@src/domain.objects/constants';
+import type { LogTrail } from '@src/domain.objects/LogTrail';
 
 import { formatLogContentsForEnvironment } from './formatLogContentsForEnvironment';
 
@@ -25,9 +26,13 @@ export type LogMethod = (message: string, metadata?: any) => void;
 export const generateLogMethod = ({
   level,
   minimalLogLevel,
+  trail,
+  env,
 }: {
   level: LogLevel;
   minimalLogLevel: LogLevel;
+  trail?: LogTrail;
+  env?: { commit: string };
 }) => {
   return (message: string, metadata?: object) => {
     if (aIsEqualOrMoreImportantThanB({ a: level, b: minimalLogLevel })) {
@@ -46,6 +51,8 @@ export const generateLogMethod = ({
           timestamp: new Date().toISOString(),
           message,
           metadata,
+          trail,
+          env,
         }),
       );
     }

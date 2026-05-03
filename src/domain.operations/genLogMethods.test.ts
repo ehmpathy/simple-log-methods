@@ -1,8 +1,8 @@
-import { generateLogMethods } from './generateLogMethods';
+import { genLogMethods } from './genLogMethods';
 
-describe('generateLogMethods', () => {
+describe('genLogMethods', () => {
   it('should create the log methods', () => {
-    const log = generateLogMethods();
+    const log = genLogMethods();
     expect(log).toHaveProperty('error');
     expect(log).toHaveProperty('warn');
     expect(log).toHaveProperty('info');

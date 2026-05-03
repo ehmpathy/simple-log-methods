@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`journey: withLogTrail grows stack automatically given: [case1] wrapped procedure emits logs when: [t0] procedure is called then: stack includes procedure name 1`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "info",
+  "message": "processOrder.progress: order started",
+  "metadata": "{"orderId":"ord_123"}",
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [
+      "processOrder",
+    ],
+  },
+}
+`;
+
+exports[`journey: withLogTrail grows stack automatically given: [case2] nested procedures when: [t0] inner procedure emits logs then: stack shows full path: outer -> inner 1`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "info",
+  "message": "validateInventory.progress: check stock",
+  "metadata": undefined,
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [
+      "processOrder",
+      "validateInventory",
+    ],
+  },
+}
+`;

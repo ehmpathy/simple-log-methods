@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`journey: lambda handler with trail given: [case1] lambda receives api gateway request when: [t0] handler logs request received then: log includes trail.exid and env.commit 1`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "info",
+  "message": "request received",
+  "metadata": "{"path":"/orders"}",
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [],
+  },
+}
+`;
+
+exports[`journey: lambda handler with trail given: [case1] lambda receives api gateway request when: [t1] handler calls downstream procedure then: procedure logs include trail.exid in stack 1`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "info",
+  "message": "processRequest.progress: parse body",
+  "metadata": undefined,
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [
+      "processRequest",
+    ],
+  },
+}
+`;
+
+exports[`journey: lambda handler with trail given: [case1] lambda receives api gateway request when: [t1] handler calls downstream procedure then: procedure logs include trail.exid in stack 2`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "info",
+  "message": "processRequest.progress: validate request",
+  "metadata": "{"path":"/orders"}",
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [
+      "processRequest",
+    ],
+  },
+}
+`;
+
+exports[`journey: lambda handler with trail given: [case1] lambda receives api gateway request when: [t2] handler logs request complete then: log shares same trail.exid 1`] = `
+{
+  "env": {
+    "commit": "a1b2c3d",
+  },
+  "level": "info",
+  "message": "request complete",
+  "metadata": "{"statusCode":200}",
+  "timestamp": "[masked]",
+  "trail": {
+    "exid": "req_abc123",
+    "stack": [],
+  },
+}
+`;
