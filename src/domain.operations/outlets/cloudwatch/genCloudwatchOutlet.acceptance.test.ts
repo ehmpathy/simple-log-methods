@@ -53,7 +53,8 @@ const getTestRegion = (): { region: string } => {
  *         this is not failhide: test skips explicitly with clear reason.
  *         to run locally: rhx keyrack unlock --owner ehmpath --env test
  */
-describe.runIf(hasAwsCredentials())('genCloudwatchOutlet', () => {
+describe('genCloudwatchOutlet', () => {
+  const awsCredentialsAvailable = hasAwsCredentials();
   // cleanup helper
   const cleanupLogGroup = async (
     logGroupName: string,
@@ -74,199 +75,211 @@ describe.runIf(hasAwsCredentials())('genCloudwatchOutlet', () => {
     }
   };
 
-  given('[case1] cloudwatch outlet created', () => {
-    const logGroupName = `/aws/lambda/simple-log-methods-test-${randomUUID()}`;
-    const logStreamName = `test-stream-${randomUUID()}`;
-    let testRegion: string;
+  given.runIf(awsCredentialsAvailable)(
+    '[case1] cloudwatch outlet created',
+    () => {
+      const logGroupName = `/aws/lambda/simple-log-methods-test-${randomUUID()}`;
+      const logStreamName = `test-stream-${randomUUID()}`;
+      let testRegion: string;
 
-    afterAll(async () => {
-      if (testRegion) await cleanupLogGroup(logGroupName, testRegion);
-    });
-
-    when('[t0] send and flush called', () => {
-      then('log event sent to cloudwatch', async () => {
-        const { region } = getTestRegion();
-        testRegion = region;
-
-        // create outlet and send event
-        const outlet = genCloudwatchOutlet({
-          region,
-          logGroup: logGroupName,
-          logStream: logStreamName,
-        });
-
-        const event: LogEvent = {
-          level: LogLevel.INFO,
-          timestamp: new Date().toISOString(),
-          message: 'test message from integration test',
-          metadata: { testId: randomUUID() },
-        };
-
-        outlet.send(event);
-        await outlet.flush();
-        outlet.close?.();
-
-        // wait for cloudwatch to index
-        await new Promise((r) => setTimeout(r, 2000));
-
-        // verify event in cloudwatch
-        const client = new CloudWatchLogsClient({ region });
-        const response = await client.send(
-          new GetLogEventsCommand({
-            logGroupName,
-            logStreamName,
-          }),
-        );
-
-        expect(response.events).toBeDefined();
-        expect(response.events!.length).toBeGreaterThan(0);
-
-        const loggedEvent = JSON.parse(response.events![0]!.message!);
-        expect(loggedEvent.message).toEqual(
-          'test message from integration test',
-        );
-
-        // snapshot LogEvent structure
-        expect({
-          level: loggedEvent.level,
-          message: loggedEvent.message,
-          hasTimestamp: !!loggedEvent.timestamp,
-          hasMetadata: !!loggedEvent.metadata,
-        }).toMatchSnapshot();
+      afterAll(async () => {
+        if (testRegion) await cleanupLogGroup(logGroupName, testRegion);
       });
-    });
-  });
 
-  given('[case2] region parameter provided', () => {
-    when('[t0] outlet created with explicit region', () => {
-      then('uses explicit region over env vars', () => {
-        // outlet creation should succeed with explicit region
-        const outlet = genCloudwatchOutlet({
-          region: 'eu-west-1',
-          logGroup: '/test/explicit-region',
-          logStream: 'test-stream',
-        });
+      when('[t0] send and flush called', () => {
+        then('log event sent to cloudwatch', async () => {
+          const { region } = getTestRegion();
+          testRegion = region;
 
-        // verify outlet was created (won't throw)
-        expect(outlet.send).toBeDefined();
-        expect(outlet.flush).toBeDefined();
-        expect(outlet.close).toBeDefined();
+          // create outlet and send event
+          const outlet = genCloudwatchOutlet({
+            region,
+            logGroup: logGroupName,
+            logStream: logStreamName,
+          });
 
-        // snapshot outlet interface
-        expect({
-          hasSend: typeof outlet.send === 'function',
-          hasFlush: typeof outlet.flush === 'function',
-          hasClose: typeof outlet.close === 'function',
-        }).toMatchSnapshot();
-
-        // cleanup
-        outlet.close?.();
-      });
-    });
-  });
-
-  given('[case3] skipLogGroupCreation is true', () => {
-    const logGroupName = `/aws/lambda/simple-log-methods-test-${randomUUID()}`;
-    const logStreamName = `test-stream-${randomUUID()}`;
-    let testRegion: string;
-
-    afterAll(async () => {
-      if (testRegion) await cleanupLogGroup(logGroupName, testRegion);
-    });
-
-    when('[t0] send and flush called without log group', () => {
-      then('throws because log group absent', async () => {
-        const { region } = getTestRegion();
-        testRegion = region;
-
-        const outlet = genCloudwatchOutlet({
-          region,
-          logGroup: logGroupName,
-          logStream: logStreamName,
-          skipLogGroupCreation: true,
-        });
-
-        const event: LogEvent = {
-          level: LogLevel.INFO,
-          timestamp: new Date().toISOString(),
-          message: 'test message',
-        };
-
-        outlet.send(event);
-
-        let errorThrown = false;
-        try {
-          await outlet.flush();
-        } catch {
-          errorThrown = true;
-        }
-        expect(errorThrown).toBe(true);
-        expect({
-          skipLogGroupCreation: true,
-          errorOnFlush: errorThrown,
-        }).toMatchSnapshot();
-        outlet.close?.();
-      });
-    });
-  });
-
-  given('[case4] multiple events batched', () => {
-    const logGroupName = `/aws/lambda/simple-log-methods-test-${randomUUID()}`;
-    const logStreamName = `test-stream-${randomUUID()}`;
-    let testRegion: string;
-
-    afterAll(async () => {
-      if (testRegion) await cleanupLogGroup(logGroupName, testRegion);
-    });
-
-    when('[t0] multiple events sent and flushed', () => {
-      then('all events appear in cloudwatch', async () => {
-        const { region } = getTestRegion();
-        testRegion = region;
-
-        const outlet = genCloudwatchOutlet({
-          region,
-          logGroup: logGroupName,
-          logStream: logStreamName,
-        });
-
-        for (let i = 0; i < 5; i++) {
-          outlet.send({
+          const event: LogEvent = {
             level: LogLevel.INFO,
             timestamp: new Date().toISOString(),
-            message: `batch message ${i}`,
-          });
-        }
-
-        await outlet.flush();
-        outlet.close?.();
-
-        // wait for cloudwatch to index
-        await new Promise((r) => setTimeout(r, 2000));
-
-        const client = new CloudWatchLogsClient({ region });
-        const response = await client.send(
-          new GetLogEventsCommand({
-            logGroupName,
-            logStreamName,
-          }),
-        );
-
-        expect(response.events!.length).toBe(5);
-        // snapshot event structure (messages vary, but structure is deterministic)
-        const parsedEvents = response.events!.map((e) => {
-          const parsed = JSON.parse(e.message!);
-          return {
-            level: parsed.level,
-            messagePattern: /^batch message \d$/.test(parsed.message),
-            hasTimestamp: !!parsed.timestamp,
+            message: 'test message from integration test',
+            metadata: { testId: randomUUID() },
           };
+
+          outlet.send(event);
+          await outlet.flush();
+          outlet.close?.();
+
+          // wait for cloudwatch to index
+          await new Promise((r) => setTimeout(r, 2000));
+
+          // verify event in cloudwatch
+          const client = new CloudWatchLogsClient({ region });
+          const response = await client.send(
+            new GetLogEventsCommand({
+              logGroupName,
+              logStreamName,
+            }),
+          );
+
+          expect(response.events).toBeDefined();
+          expect(response.events!.length).toBeGreaterThan(0);
+
+          const loggedEvent = JSON.parse(response.events![0]!.message!);
+          expect(loggedEvent.message).toEqual(
+            'test message from integration test',
+          );
+
+          // snapshot LogEvent structure
+          expect({
+            level: loggedEvent.level,
+            message: loggedEvent.message,
+            hasTimestamp: !!loggedEvent.timestamp,
+            hasMetadata: !!loggedEvent.metadata,
+          }).toMatchSnapshot();
         });
-        expect({
-          eventCount: response.events!.length,
-          eventStructures: parsedEvents,
-        }).toMatchSnapshot();
       });
-    });
-  });
+    },
+  );
+
+  given.runIf(awsCredentialsAvailable)(
+    '[case2] region parameter provided',
+    () => {
+      when('[t0] outlet created with explicit region', () => {
+        then('uses explicit region over env vars', () => {
+          // outlet creation should succeed with explicit region
+          const outlet = genCloudwatchOutlet({
+            region: 'eu-west-1',
+            logGroup: '/test/explicit-region',
+            logStream: 'test-stream',
+          });
+
+          // verify outlet was created (won't throw)
+          expect(outlet.send).toBeDefined();
+          expect(outlet.flush).toBeDefined();
+          expect(outlet.close).toBeDefined();
+
+          // snapshot outlet interface
+          expect({
+            hasSend: typeof outlet.send === 'function',
+            hasFlush: typeof outlet.flush === 'function',
+            hasClose: typeof outlet.close === 'function',
+          }).toMatchSnapshot();
+
+          // cleanup
+          outlet.close?.();
+        });
+      });
+    },
+  );
+
+  given.runIf(awsCredentialsAvailable)(
+    '[case3] skipLogGroupCreation is true',
+    () => {
+      const logGroupName = `/aws/lambda/simple-log-methods-test-${randomUUID()}`;
+      const logStreamName = `test-stream-${randomUUID()}`;
+      let testRegion: string;
+
+      afterAll(async () => {
+        if (testRegion) await cleanupLogGroup(logGroupName, testRegion);
+      });
+
+      when('[t0] send and flush called without log group', () => {
+        then('throws because log group absent', async () => {
+          const { region } = getTestRegion();
+          testRegion = region;
+
+          const outlet = genCloudwatchOutlet({
+            region,
+            logGroup: logGroupName,
+            logStream: logStreamName,
+            skipLogGroupCreation: true,
+          });
+
+          const event: LogEvent = {
+            level: LogLevel.INFO,
+            timestamp: new Date().toISOString(),
+            message: 'test message',
+          };
+
+          outlet.send(event);
+
+          let errorThrown = false;
+          try {
+            await outlet.flush();
+          } catch {
+            errorThrown = true;
+          }
+          expect(errorThrown).toBe(true);
+          expect({
+            skipLogGroupCreation: true,
+            errorOnFlush: errorThrown,
+          }).toMatchSnapshot();
+          outlet.close?.();
+        });
+      });
+    },
+  );
+
+  given.runIf(awsCredentialsAvailable)(
+    '[case4] multiple events batched',
+    () => {
+      const logGroupName = `/aws/lambda/simple-log-methods-test-${randomUUID()}`;
+      const logStreamName = `test-stream-${randomUUID()}`;
+      let testRegion: string;
+
+      afterAll(async () => {
+        if (testRegion) await cleanupLogGroup(logGroupName, testRegion);
+      });
+
+      when('[t0] multiple events sent and flushed', () => {
+        then('all events appear in cloudwatch', async () => {
+          const { region } = getTestRegion();
+          testRegion = region;
+
+          const outlet = genCloudwatchOutlet({
+            region,
+            logGroup: logGroupName,
+            logStream: logStreamName,
+          });
+
+          for (let i = 0; i < 5; i++) {
+            outlet.send({
+              level: LogLevel.INFO,
+              timestamp: new Date().toISOString(),
+              message: `batch message ${i}`,
+            });
+          }
+
+          await outlet.flush();
+          outlet.close?.();
+
+          // wait for cloudwatch to index
+          await new Promise((r) => setTimeout(r, 2000));
+
+          const client = new CloudWatchLogsClient({ region });
+          const response = await client.send(
+            new GetLogEventsCommand({
+              logGroupName,
+              logStreamName,
+            }),
+          );
+
+          expect(response.events!.length).toBe(5);
+          // snapshot event structure (messages vary, but structure is deterministic)
+          const parsedEvents = response.events!.map((e) => {
+            const parsed = JSON.parse(e.message!);
+            return {
+              level: parsed.level,
+              messagePattern: /^batch message \d$/.test(parsed.message),
+              hasTimestamp: !!parsed.timestamp,
+            };
+          });
+          expect({
+            eventCount: response.events!.length,
+            eventStructures: parsedEvents,
+          }).toMatchSnapshot();
+        });
+      });
+    },
+  );
 });
