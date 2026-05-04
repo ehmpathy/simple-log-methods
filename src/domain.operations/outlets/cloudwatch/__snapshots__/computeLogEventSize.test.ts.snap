@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`computeLogEventSize given: [case1] a simple object when: [t0] size is computed then: returns JSON length plus separator 1`] = `
+{
+  "input": {
+    "key": "value",
+  },
+  "output": 16,
+}
+`;
+
+exports[`computeLogEventSize given: [case2] a complex nested object when: [t0] size is computed then: accounts for full serialized size 1`] = `
+{
+  "input": {
+    "level": "INFO",
+    "message": "test message with unicode: 日本語",
+    "metadata": {
+      "array": [
+        1,
+        2,
+        3,
+      ],
+      "nested": {
+        "deep": true,
+      },
+    },
+    "timestamp": "2026-05-03T12:00:00.000Z",
+  },
+  "output": 151,
+}
+`;
+
+exports[`computeLogEventSize given: [case3] an empty object when: [t0] size is computed then: returns minimal size 1`] = `
+{
+  "input": {},
+  "output": 3,
+}
+`;
+
+exports[`computeLogEventSize given: [case4] edge cases: special values when: [t0] object has null value then: handles null correctly 1`] = `
+{
+  "input": {
+    "value": null,
+  },
+  "output": 15,
+}
+`;
+
+exports[`computeLogEventSize given: [case4] edge cases: special values when: [t1] object has empty string then: handles empty string correctly 1`] = `
+{
+  "input": {
+    "message": "",
+  },
+  "output": 15,
+}
+`;
+
+exports[`computeLogEventSize given: [case4] edge cases: special values when: [t2] object has boolean values then: handles booleans correctly 1`] = `
+{
+  "input": {
+    "active": true,
+    "deleted": false,
+  },
+  "output": 32,
+}
+`;

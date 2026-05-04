@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`asDefaultLogStreamName given: [case1] a call to generate log stream name when: [t0] a stream name is generated then: it should match snapshot format 1`] = `
+{
+  "hasDatePrefix": true,
+  "hasUuidSuffix": true,
+  "hasVersionPrefix": true,
+  "parts": 4,
+}
+`;
+
+exports[`asDefaultLogStreamName given: [case2] edge case: format consistency when: [t0] multiple names generated then: all match expected format structure 1`] = `
+{
+  "allMatchFormat": true,
+  "allUnique": true,
+  "count": 5,
+}
+`;

@@ -1,4 +1,5 @@
 import { LogLevel } from '@src/domain.objects/constants';
+import type { LogOutlet } from '@src/domain.objects/LogOutlet';
 
 import { generateLogMethod, type LogMethod } from './generateLogMethod';
 import { getRecommendedMinimalLogLevelForEnvironment } from './getRecommendedMinimalLogLevelForEnvironment';
@@ -42,18 +43,41 @@ export interface LogMethods {
  * define how to generate the log methods
  * - allows you to specify the minimal log level to use for your application
  * - defaults to recommended levels for the environment
+ * - allows you to specify outlets for log events to flow to external destinations
  */
 export const genLogMethods = ({
-  minimalLogLevel = getRecommendedMinimalLogLevelForEnvironment(),
+  level,
+  outlets,
 }: {
-  minimalLogLevel?: LogLevel;
+  level?: { minimum?: LogLevel };
+  outlets?: LogOutlet[];
 } = {}): LogMethods => {
+  // derive minimal log level
+  const derivedMinimalLogLevel =
+    level?.minimum ?? getRecommendedMinimalLogLevelForEnvironment();
+
   // generate the methods
   return {
-    error: generateLogMethod({ level: LogLevel.ERROR, minimalLogLevel }),
-    warn: generateLogMethod({ level: LogLevel.WARN, minimalLogLevel }),
-    info: generateLogMethod({ level: LogLevel.INFO, minimalLogLevel }),
-    debug: generateLogMethod({ level: LogLevel.DEBUG, minimalLogLevel }),
-    _: Object.freeze({ level: minimalLogLevel }),
+    error: generateLogMethod({
+      level: LogLevel.ERROR,
+      minimalLogLevel: derivedMinimalLogLevel,
+      outlets,
+    }),
+    warn: generateLogMethod({
+      level: LogLevel.WARN,
+      minimalLogLevel: derivedMinimalLogLevel,
+      outlets,
+    }),
+    info: generateLogMethod({
+      level: LogLevel.INFO,
+      minimalLogLevel: derivedMinimalLogLevel,
+      outlets,
+    }),
+    debug: generateLogMethod({
+      level: LogLevel.DEBUG,
+      minimalLogLevel: derivedMinimalLogLevel,
+      outlets,
+    }),
+    _: Object.freeze({ level: derivedMinimalLogLevel }),
   };
 };

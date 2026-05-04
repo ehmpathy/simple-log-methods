@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`genCloudwatchOutlet.journey given: [case1] cloudwatch outlet journey when: [t0..t5] full journey executed then: all logs present in order 1`] = `
+[
+  {
+    "hasMetadata": true,
+    "hasTimestamp": true,
+    "level": "info",
+    "message": "journey log 1",
+  },
+  {
+    "hasMetadata": true,
+    "hasTimestamp": true,
+    "level": "info",
+    "message": "journey log 2",
+  },
+  {
+    "hasMetadata": true,
+    "hasTimestamp": true,
+    "level": "info",
+    "message": "journey log 3",
+  },
+  {
+    "hasMetadata": true,
+    "hasTimestamp": true,
+    "level": "info",
+    "message": "journey log 4",
+  },
+  {
+    "hasMetadata": true,
+    "hasTimestamp": true,
+    "level": "info",
+    "message": "journey log 5",
+  },
+  {
+    "hasMetadata": true,
+    "hasTimestamp": true,
+    "level": "info",
+    "message": "journey log 6",
+  },
+  {
+    "hasMetadata": true,
+    "hasTimestamp": true,
+    "level": "info",
+    "message": "journey log 7",
+  },
+]
+`;
