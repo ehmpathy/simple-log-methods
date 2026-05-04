@@ -4,9 +4,9 @@ exports[`asLambdaStyleLogGroupName given: [case1] explicit service and env.acces
 
 exports[`asLambdaStyleLogGroupName given: [case2] only service provided when: [t0] called with service only then: infers env.access from env var 1`] = `"/aws/lambda/my-service-test"`;
 
-exports[`asLambdaStyleLogGroupName given: [case3] only env.access provided when: [t0] called with env.access only then: infers service from package.json 1`] = `"/aws/lambda/simple-log-methods-prep"`;
+exports[`asLambdaStyleLogGroupName given: [case3] only env.access provided when: [t0] called with env.access only then: infers service from package.json 1`] = `"/aws/lambda/sdk-logs-prep"`;
 
-exports[`asLambdaStyleLogGroupName given: [case4] no args provided when: [t0] called with no args then: infers both from package.json and env var 1`] = `"/aws/lambda/simple-log-methods-local"`;
+exports[`asLambdaStyleLogGroupName given: [case4] no args provided when: [t0] called with no args then: infers both from package.json and env var 1`] = `"/aws/lambda/sdk-logs-local"`;
 
 exports[`asLambdaStyleLogGroupName given: [case5] edge cases: special service names when: [t0] service has multiple dashes then: preserves dashes in output 1`] = `"/aws/lambda/my-complex-service-name-prod"`;
 

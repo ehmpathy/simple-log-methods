@@ -55,8 +55,8 @@ describe('asLambdaStyleLogGroupName', () => {
         const result = asLambdaStyleLogGroupName({
           env: { access: 'prep' },
         });
-        // package.json name is 'simple-log-methods'
-        expect(result).toEqual('/aws/lambda/simple-log-methods-prep');
+        // package.json name is 'sdk-logs'
+        expect(result).toEqual('/aws/lambda/sdk-logs-prep');
         expect(result).toMatchSnapshot();
       });
     });
@@ -80,7 +80,7 @@ describe('asLambdaStyleLogGroupName', () => {
     when('[t0] called with no args', () => {
       then('infers both from package.json and env var', () => {
         const result = asLambdaStyleLogGroupName();
-        expect(result).toEqual('/aws/lambda/simple-log-methods-local');
+        expect(result).toEqual('/aws/lambda/sdk-logs-local');
         expect(result).toMatchSnapshot();
       });
     });

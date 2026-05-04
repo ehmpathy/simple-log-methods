@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`generateLogMethods given: [case1] outlets provided when: [t0] log methods called then: passes outlets to each log method 1`] = `
+exports[`genLogMethods given: [case1] outlets provided when: [t0] log methods called then: passes outlets to each log method 1`] = `
 [
   {
     "hasMetadata": false,
