@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`generateLogMethod given: [case5] outlets provided when: [t0] log method called then: calls outlet.send with LogEvent 1`] = `
+{
+  "hasTimestamp": true,
+  "level": "info",
+  "message": "test message",
+  "metadata": {
+    "key": "value",
+  },
+}
+`;
+
+exports[`generateLogMethod given: [case6] multiple outlets provided when: [t0] log method called then: calls all outlets 1`] = `
+{
+  "outlet1EventCount": 1,
+  "outlet2EventCount": 1,
+}
+`;
+
+exports[`generateLogMethod given: [case7] outlet.send throws when: [t0] log method called then: error propagates to caller (fail-fast) 1`] = `
+{
+  "errorMessage": "outlet failed",
+  "failFast": true,
+}
+`;
+
+exports[`generateLogMethod given: [case8] level below minimum with outlets when: [t0] log method called then: does not call outlets 1`] = `
+{
+  "outletEventCount": 0,
+  "wasSilent": true,
+}
+`;
+
+exports[`generateLogMethod should generate a method that outputs timestamp, level, message, and metadata 1`] = `
+{
+  "hasTimestamp": true,
+  "level": "error",
+  "message": "testMessage",
+  "metadata": "{"nested":{"object":true}}",
+}
+`;
+
+exports[`generateLogMethod should generate a method that outputs to console.log if below warn level 1`] = `
+{
+  "callCount": 1,
+  "usedConsoleLog": true,
+}
+`;
+
+exports[`generateLogMethod should generate a method that outputs to console.warn if at or above warn level 1`] = `
+{
+  "callCount": 1,
+  "usedConsoleWarn": true,
+}
+`;
+
+exports[`generateLogMethod should not output anything if level is below minimum 1`] = `
+{
+  "callCount": 0,
+  "wasSilent": true,
+}
+`;

@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`drainBuffer given: [case1] a buffer with events when: [t0] drained then: returns all events 1`] = `
+[
+  {
+    "level": "info",
+    "message": "first",
+    "metadata": undefined,
+    "timestamp": "t1",
+  },
+  {
+    "level": "info",
+    "message": "second",
+    "metadata": undefined,
+    "timestamp": "t2",
+  },
+]
+`;
+
+exports[`drainBuffer given: [case2] an empty buffer when: [t0] drained then: returns empty array 1`] = `[]`;
+
+exports[`drainBuffer given: [case3] buffer drain is atomic when: [t0] drained then: result and buffer reference different arrays 1`] = `
+{
+  "bufferAfter": [
+    {
+      "level": "info",
+      "message": "two",
+      "metadata": undefined,
+      "timestamp": "t2",
+    },
+  ],
+  "drained": [
+    {
+      "level": "info",
+      "message": "one",
+      "metadata": undefined,
+      "timestamp": "t1",
+    },
+  ],
+}
+`;

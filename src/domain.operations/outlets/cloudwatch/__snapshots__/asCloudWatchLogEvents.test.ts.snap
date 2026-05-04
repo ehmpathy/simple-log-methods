@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`asCloudWatchLogEvents given: [case1] a single log event when: [t0] transformed to CloudWatch format then: message is JSON serialized event 1`] = `
+[
+  {
+    "message": "{"level":"info","timestamp":"2026-05-03T12:00:00.000Z","message":"test message","metadata":{"key":"value"}}",
+    "timestamp": 1777809600000,
+  },
+]
+`;
+
+exports[`asCloudWatchLogEvents given: [case1] a single log event when: [t0] transformed to CloudWatch format then: timestamp is epoch ms 1`] = `
+[
+  {
+    "message": "{"level":"info","timestamp":"2026-05-03T12:00:00.000Z","message":"test message","metadata":{"key":"value"}}",
+    "timestamp": 1777809600000,
+  },
+]
+`;
+
+exports[`asCloudWatchLogEvents given: [case2] multiple log events when: [t0] transformed to CloudWatch format then: order is preserved 1`] = `
+[
+  {
+    "message": "{"level":"info","timestamp":"2026-05-03T12:00:00.000Z","message":"first"}",
+    "timestamp": 1777809600000,
+  },
+  {
+    "message": "{"level":"error","timestamp":"2026-05-03T12:00:01.000Z","message":"second","metadata":{"error":true}}",
+    "timestamp": 1777809601000,
+  },
+]
+`;
+
+exports[`asCloudWatchLogEvents given: [case3] empty array when: [t0] transformed then: returns empty array 1`] = `[]`;
+
+exports[`asCloudWatchLogEvents given: [case4] edge cases: minimal and boundary inputs when: [t0] event has empty message then: empty message is preserved 1`] = `
+[
+  {
+    "message": "{"level":"debug","timestamp":"2026-05-03T12:00:00.000Z","message":""}",
+    "timestamp": 1777809600000,
+  },
+]
+`;
+
+exports[`asCloudWatchLogEvents given: [case4] edge cases: minimal and boundary inputs when: [t1] event has null metadata then: null metadata is serialized 1`] = `
+[
+  {
+    "message": "{"level":"warn","timestamp":"2026-05-03T12:00:00.000Z","message":"caution event","metadata":null}",
+    "timestamp": 1777809600000,
+  },
+]
+`;
+
+exports[`asCloudWatchLogEvents given: [case4] edge cases: minimal and boundary inputs when: [t2] event has deeply nested metadata then: nested metadata is serialized 1`] = `
+[
+  {
+    "message": "{"level":"info","timestamp":"2026-05-03T12:00:00.000Z","message":"nested test","metadata":{"a":{"b":{"c":{"d":"deep"}}}}}",
+    "timestamp": 1777809600000,
+  },
+]
+`;

@@ -1,6 +1,8 @@
 import { LogLevel } from '@src/domain.objects/constants';
+import type { LogEvent, LogOutlet } from '@src/domain.objects/LogOutlet';
 import type { LogTrail } from '@src/domain.objects/LogTrail';
 
+import { asCurrentIsoTimestamp } from './asCurrentIsoTimestamp';
 import { formatLogContentsForEnvironment } from './formatLogContentsForEnvironment';
 
 /*
@@ -28,33 +30,52 @@ export const generateLogMethod = ({
   minimalLogLevel,
   trail,
   env,
+  outlets,
 }: {
   level: LogLevel;
   minimalLogLevel: LogLevel;
   trail?: LogTrail;
   env?: { commit: string };
+  outlets?: LogOutlet[];
 }) => {
   return (message: string, metadata?: object) => {
-    if (aIsEqualOrMoreImportantThanB({ a: level, b: minimalLogLevel })) {
-      // determine the console level (i.e., use warn if we can to make the logs stand out more)
-      const consoleMethod = aIsEqualOrMoreImportantThanB({
-        a: level,
-        b: LogLevel.WARN,
-      })
-        ? console.warn
-        : console.log; // tslint:disable-line no-console
+    // check level threshold
+    if (!aIsEqualOrMoreImportantThanB({ a: level, b: minimalLogLevel })) return;
 
-      // output the message to console, which will get picked up by cloudwatch when deployed lambda is invoked
-      consoleMethod(
-        formatLogContentsForEnvironment({
-          level,
-          timestamp: new Date().toISOString(),
-          message,
-          metadata,
-          trail,
-          env,
-        }),
-      );
+    // create timestamp once for consistency
+    const timestamp = asCurrentIsoTimestamp();
+
+    // determine the console level (i.e., use warn if we can to make the logs stand out more)
+    const consoleMethod = aIsEqualOrMoreImportantThanB({
+      a: level,
+      b: LogLevel.WARN,
+    })
+      ? console.warn
+      : console.log; // tslint:disable-line no-console
+
+    // output the message to console, which will get picked up by cloudwatch when deployed lambda is invoked
+    consoleMethod(
+      formatLogContentsForEnvironment({
+        level,
+        timestamp,
+        message,
+        metadata,
+        trail,
+        env,
+      }),
+    );
+
+    // dispatch to outlets (fail-fast: errors propagate to caller)
+    if (outlets && outlets.length > 0) {
+      const event: LogEvent = {
+        level,
+        timestamp,
+        message,
+        metadata: metadata as Record<string, unknown> | undefined,
+      };
+      for (const outlet of outlets) {
+        outlet.send(event);
+      }
     }
   };
 };

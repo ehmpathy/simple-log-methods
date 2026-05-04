@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`asLambdaStyleLogGroupName given: [case1] explicit service and env.access provided when: [t0] called with explicit values then: matches snapshot format 1`] = `"/aws/lambda/my-service-prod"`;
+
+exports[`asLambdaStyleLogGroupName given: [case2] only service provided when: [t0] called with service only then: infers env.access from env var 1`] = `"/aws/lambda/my-service-test"`;
+
+exports[`asLambdaStyleLogGroupName given: [case3] only env.access provided when: [t0] called with env.access only then: infers service from package.json 1`] = `"/aws/lambda/simple-log-methods-prep"`;
+
+exports[`asLambdaStyleLogGroupName given: [case4] no args provided when: [t0] called with no args then: infers both from package.json and env var 1`] = `"/aws/lambda/simple-log-methods-local"`;
+
+exports[`asLambdaStyleLogGroupName given: [case5] edge cases: special service names when: [t0] service has multiple dashes then: preserves dashes in output 1`] = `"/aws/lambda/my-complex-service-name-prod"`;
+
+exports[`asLambdaStyleLogGroupName given: [case5] edge cases: special service names when: [t1] service has underscores then: preserves underscores in output 1`] = `"/aws/lambda/my_service-test"`;
+
+exports[`asLambdaStyleLogGroupName given: [case5] edge cases: special service names when: [t2] env.access is empty string and STAGE not set then: falls back to default env 1`] = `
+{
+  "hasEnv": true,
+  "hasService": true,
+  "prefix": "/aws/lambda/",
+}
+`;

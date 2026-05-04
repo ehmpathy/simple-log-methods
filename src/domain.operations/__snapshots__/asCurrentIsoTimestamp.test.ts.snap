@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`asCurrentIsoTimestamp given: [case1] timestamp is requested when: [t0] called then: returns ISO 8601 format 1`] = `
+{
+  "endsWithZ": true,
+  "length": 24,
+  "matchesIso8601": true,
+}
+`;
+
+exports[`asCurrentIsoTimestamp given: [case1] timestamp is requested when: [t0] called then: timestamp is close to current time 1`] = `
+{
+  "isWithinRange": true,
+}
+`;
+
+exports[`asCurrentIsoTimestamp given: [case1] timestamp is requested when: [t0] called then: timestamp is parseable 1`] = `
+{
+  "isParseable": true,
+}
+`;
+
+exports[`asCurrentIsoTimestamp given: [case2] edge cases: multiple calls when: [t0] called multiple times rapidly then: each call returns valid distinct or equal timestamps 1`] = `
+{
+  "allValid": true,
+  "count": 3,
+}
+`;
