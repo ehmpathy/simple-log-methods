@@ -3,7 +3,9 @@ import { LogLevel } from '@src/domain.objects/constants';
 import type { LogMethods } from './genLogMethods';
 import { withLogTrail } from './withLogTrail';
 
-const createMockLogMethods = (): LogMethods & {
+const createMockLogMethods = (options?: {
+  env?: { commit: string };
+}): LogMethods & {
   debug: jest.Mock;
   info: jest.Mock;
   warn: jest.Mock;
@@ -14,6 +16,7 @@ const createMockLogMethods = (): LogMethods & {
   warn: jest.fn(),
   error: jest.fn(),
   _: Object.freeze({ level: LogLevel.DEBUG }),
+  env: options?.env,
 });
 
 describe('withLogTrail', () => {
@@ -322,6 +325,46 @@ describe('withLogTrail', () => {
           expect.any(Object),
         );
       });
+    });
+  });
+
+  describe('env inheritance', () => {
+    it('should pass env from context.log to nested log methods', () => {
+      const mockLog = createMockLogMethods({ env: { commit: 'main@abc123' } });
+      let capturedContext: { log: { env?: { commit: string } } } | undefined;
+
+      const testFn = function testFunction(
+        input: string,
+        context: { log: { env?: { commit: string } } },
+      ) {
+        capturedContext = context;
+        return input.toUpperCase();
+      };
+      const wrapped = withLogTrail(testFn, {});
+
+      wrapped('hello', { log: mockLog });
+
+      // verify env is passed through to nested context
+      expect(capturedContext?.log.env).toEqual({ commit: 'main@abc123' });
+    });
+
+    it('should preserve env when no env is provided', () => {
+      const mockLog = createMockLogMethods(); // no env
+      let capturedContext: { log: { env?: { commit: string } } } | undefined;
+
+      const testFn = function testFunction(
+        input: string,
+        context: { log: { env?: { commit: string } } },
+      ) {
+        capturedContext = context;
+        return input.toUpperCase();
+      };
+      const wrapped = withLogTrail(testFn, {});
+
+      wrapped('hello', { log: mockLog });
+
+      // verify env is undefined when not provided
+      expect(capturedContext?.log.env).toBeUndefined();
     });
   });
 });

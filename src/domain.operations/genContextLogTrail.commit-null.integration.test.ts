@@ -9,13 +9,13 @@ const maskTimestamp = (log: Record<string, unknown>) => ({
 
 describe('journey: commit unavailable', () => {
   given('[case1] local dev without COMMIT_SHA', () => {
-    when('[t0] context created with null commit', () => {
+    when('[t0] context created with empty env', () => {
       then('logs work without env field', () => {
         const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
         const context = genContextLogTrail({
           trail: { exid: 'req_abc123', stack: [] },
-          env: { commit: null },
+          env: {},
         });
 
         context.log.info('local dev log');

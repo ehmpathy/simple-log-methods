@@ -1,4 +1,5 @@
 import { UnexpectedCodePathError } from 'helpful-errors';
+import type { Environment } from 'sdk-environment';
 
 import {
   type LogLevel,
@@ -21,7 +22,7 @@ export const formatLogContentsForEnvironment = ({
   message: string;
   metadata?: Record<string, any>;
   trail?: LogTrail;
-  env?: { commit: string };
+  env?: Partial<Environment>;
 }) => {
   const environment = identifyEnvironment();
 

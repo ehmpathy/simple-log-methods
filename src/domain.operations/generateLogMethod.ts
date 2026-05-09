@@ -1,3 +1,5 @@
+import type { Environment } from 'sdk-environment';
+
 import { LogLevel } from '@src/domain.objects/constants';
 import type { LogEvent, LogOutlet } from '@src/domain.objects/LogOutlet';
 import type { LogTrail } from '@src/domain.objects/LogTrail';
@@ -35,7 +37,7 @@ export const generateLogMethod = ({
   level: LogLevel;
   minimalLogLevel: LogLevel;
   trail?: LogTrail;
-  env?: { commit: string };
+  env?: Partial<Environment>;
   outlets?: LogOutlet[];
 }) => {
   return (message: string, metadata?: object) => {
@@ -72,6 +74,7 @@ export const generateLogMethod = ({
         timestamp,
         message,
         metadata: metadata as Record<string, unknown> | undefined,
+        env,
       };
       for (const outlet of outlets) {
         outlet.send(event);

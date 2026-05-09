@@ -28,3 +28,15 @@ exports[`genLogMethods given: [case1] outlets provided when: [t0] log methods ca
   },
 ]
 `;
+
+exports[`genLogMethods given: [case3] env provided when: [t0] log methods called then: passes env to each log method 1`] = `
+[
+  {
+    "envCommit": "main@abc123",
+    "hasEnv": true,
+    "hasTimestamp": true,
+    "level": "info",
+    "message": "info message",
+  },
+]
+`;
