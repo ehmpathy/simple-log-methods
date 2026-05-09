@@ -1,4 +1,7 @@
+import type { Environment } from 'sdk-environment';
+
 import { LogLevel } from '@src/domain.objects/constants';
+import type { ContextLogTrail } from '@src/domain.objects/LogTrail';
 
 import type { LogMethods } from './genLogMethods';
 import { withLogTrail } from './withLogTrail';
@@ -331,13 +334,13 @@ describe('withLogTrail', () => {
   describe('env inheritance', () => {
     it('should pass env from context.log to nested log methods', () => {
       const mockLog = createMockLogMethods({ env: { commit: 'main@abc123' } });
-      let capturedContext: { log: { env?: { commit: string } } } | undefined;
+      let capturedEnv: Partial<Environment> | undefined;
 
       const testFn = function testFunction(
         input: string,
-        context: { log: { env?: { commit: string } } },
+        context: ContextLogTrail,
       ) {
-        capturedContext = context;
+        capturedEnv = context.log.env;
         return input.toUpperCase();
       };
       const wrapped = withLogTrail(testFn, {});
@@ -345,18 +348,18 @@ describe('withLogTrail', () => {
       wrapped('hello', { log: mockLog });
 
       // verify env is passed through to nested context
-      expect(capturedContext?.log.env).toEqual({ commit: 'main@abc123' });
+      expect(capturedEnv).toEqual({ commit: 'main@abc123' });
     });
 
     it('should preserve env when no env is provided', () => {
       const mockLog = createMockLogMethods(); // no env
-      let capturedContext: { log: { env?: { commit: string } } } | undefined;
+      let capturedEnv: Partial<Environment> | undefined;
 
       const testFn = function testFunction(
         input: string,
-        context: { log: { env?: { commit: string } } },
+        context: ContextLogTrail,
       ) {
-        capturedContext = context;
+        capturedEnv = context.log.env;
         return input.toUpperCase();
       };
       const wrapped = withLogTrail(testFn, {});
@@ -364,7 +367,7 @@ describe('withLogTrail', () => {
       wrapped('hello', { log: mockLog });
 
       // verify env is undefined when not provided
-      expect(capturedContext?.log.env).toBeUndefined();
+      expect(capturedEnv).toBeUndefined();
     });
   });
 });
