@@ -60,4 +60,65 @@ describe('genLogMethods', () => {
       });
     });
   });
+
+  given('[case3] env provided', () => {
+    const createMockOutlet = (): LogOutlet & { events: LogEvent[] } => {
+      const events: LogEvent[] = [];
+      return {
+        events,
+        send: (event: LogEvent) => events.push(event),
+        flush: async () => {},
+      };
+    };
+
+    when('[t0] log methods called', () => {
+      then('passes env to each log method', () => {
+        const outlet = createMockOutlet();
+        const log = genLogMethods({
+          level: { minimum: LogLevel.DEBUG },
+          outlets: [outlet],
+          env: { commit: 'main@abc123' },
+        });
+
+        log.info('info message');
+
+        expect(outlet.events).toHaveLength(1);
+        expect(outlet.events[0]?.env).toEqual({ commit: 'main@abc123' });
+        // snapshot for vibecheck: shows full log event structure with env
+        expect(
+          outlet.events.map((e) => ({
+            level: e.level,
+            message: e.message,
+            hasTimestamp: !!e.timestamp,
+            hasEnv: e.env !== undefined,
+            envCommit: e.env?.commit,
+          })),
+        ).toMatchSnapshot();
+      });
+
+      then('exposes env on LogMethods for withLogTrail composability', () => {
+        const log = genLogMethods({
+          env: { commit: 'main@abc123' },
+        });
+
+        expect(log.env).toEqual({ commit: 'main@abc123' });
+      });
+    });
+
+    when('[t1] env is null', () => {
+      then('env is omitted from log output', () => {
+        const outlet = createMockOutlet();
+        const log = genLogMethods({
+          level: { minimum: LogLevel.DEBUG },
+          outlets: [outlet],
+          env: null,
+        });
+
+        log.info('info message');
+
+        expect(outlet.events).toHaveLength(1);
+        expect(outlet.events[0]?.env).toBeUndefined();
+      });
+    });
+  });
 });

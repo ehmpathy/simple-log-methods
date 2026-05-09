@@ -16,7 +16,7 @@ describe('journey: withLogTrail grows stack automatically', () => {
         const context = genContextLogTrail({
           trail: { exid: 'req_abc123', stack: [] },
           env: { commit: 'a1b2c3d' },
-          minimalLogLevel: LogLevel.DEBUG,
+          level: { minimum: LogLevel.DEBUG },
         });
 
         const processOrder = withLogTrail(
@@ -47,7 +47,7 @@ describe('journey: withLogTrail grows stack automatically', () => {
         const context = genContextLogTrail({
           trail: { exid: 'req_abc123', stack: [] },
           env: { commit: 'a1b2c3d' },
-          minimalLogLevel: LogLevel.DEBUG,
+          level: { minimum: LogLevel.DEBUG },
         });
 
         const validateInventory = withLogTrail(

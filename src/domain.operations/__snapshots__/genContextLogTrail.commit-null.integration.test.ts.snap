@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`journey: commit unavailable given: [case1] local dev without COMMIT_SHA when: [t0] context created with null commit then: logs work without env field 1`] = `
+exports[`journey: commit unavailable given: [case1] local dev without COMMIT_SHA when: [t0] context created with empty env then: logs work without env field 1`] = `
 {
   "level": "info",
   "message": "local dev log",

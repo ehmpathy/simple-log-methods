@@ -1,4 +1,5 @@
 import type { Procedure, ProcedureContext } from 'domain-glossary-procedure';
+import type { Environment } from 'sdk-environment';
 
 import type { LogMethods } from '@src/domain.operations/genLogMethods';
 
@@ -35,7 +36,7 @@ export interface ContextLogTrail {
     /**
      * .what = environment context for log output
      */
-    env?: { commit: string };
+    env?: Partial<Environment>;
   };
 }
 

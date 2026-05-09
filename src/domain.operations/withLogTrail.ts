@@ -5,6 +5,7 @@ import type {
 } from 'domain-glossary-procedure';
 import { UnexpectedCodePathError } from 'helpful-errors';
 import { type IsoDuration, toMilliseconds } from 'iso-time';
+import type { Environment } from 'sdk-environment';
 import { isAPromise, type Literalize } from 'type-fns';
 
 import { LogLevel } from '@src/domain.objects/constants';
@@ -184,7 +185,7 @@ export const withLogTrail = <TInput, TContext extends ContextLogTrail, TOutput>(
     // define the context.log method that will be given to the logic
     const logMethodsWithContext: LogMethods & { _orig: LogMethods } & {
       trail: LogTrail;
-      env?: { commit: string };
+      env?: Partial<Environment>;
     } = {
       // add the trail, env, and config
       trail: updatedTrail,

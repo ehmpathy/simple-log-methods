@@ -16,7 +16,7 @@ describe('journey: all log levels include trail', () => {
         const context = genContextLogTrail({
           trail: { exid: 'req_abc123', stack: [] },
           env: { commit: 'a1b2c3d' },
-          minimalLogLevel: LogLevel.DEBUG,
+          level: { minimum: LogLevel.DEBUG },
         });
 
         context.log.debug('debug message', { detail: 'verbose' });

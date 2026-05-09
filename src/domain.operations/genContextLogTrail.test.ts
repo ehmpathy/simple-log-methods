@@ -124,13 +124,13 @@ describe('genContextLogTrail', () => {
     });
   });
 
-  given('[case5] env.commit is null', () => {
+  given('[case5] env.commit is undefined', () => {
     when('[t0] log method is called', () => {
       then('output omits env object', () => {
         const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
         const context = genContextLogTrail({
           trail: { exid: 'req_abc', stack: [] },
-          env: { commit: null },
+          env: {},
         });
         context.log.info('test message');
         expect(consoleSpy).toHaveBeenCalled();
@@ -150,7 +150,7 @@ describe('genContextLogTrail', () => {
         const context = genContextLogTrail({
           trail: { exid: 'req_abc', stack: [] },
           env: { commit: 'a1b2c3d' },
-          minimalLogLevel: LogLevel.DEBUG,
+          level: { minimum: LogLevel.DEBUG },
         });
 
         context.log.debug('debug msg');

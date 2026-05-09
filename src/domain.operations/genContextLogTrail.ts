@@ -1,3 +1,5 @@
+import type { Environment } from 'sdk-environment';
+
 import { LogLevel } from '@src/domain.objects/constants';
 import type { ContextLogTrail, LogTrail } from '@src/domain.objects/LogTrail';
 
@@ -11,7 +13,7 @@ import { getRecommendedMinimalLogLevelForEnvironment } from './getRecommendedMin
 export const genContextLogTrail = ({
   trail,
   env,
-  minimalLogLevel = getRecommendedMinimalLogLevelForEnvironment(),
+  level,
 }: {
   /**
    * .what = the trail context for log correlation
@@ -26,26 +28,25 @@ export const genContextLogTrail = ({
    * .what = the environment context
    * .why = forces caller to explicitly provide or pass null
    */
-  env: {
-    commit: string | null;
-  } | null;
+  env: Partial<Environment> | null;
 
   /**
    * .what = the minimum log level to emit
    * .why = allows filter of logs by level
    */
-  minimalLogLevel?: LogLevel;
+  level?: { minimum?: LogLevel };
 }): ContextLogTrail => {
+  // derive minimal log level
+  const minimalLogLevel =
+    level?.minimum ?? getRecommendedMinimalLogLevelForEnvironment();
+
   // build the trail object: only include if provided
   const trailForLog: LogTrail | undefined = trail
     ? { exid: trail.exid, stack: trail.stack }
     : undefined;
 
-  // build the env object: only include if commit is not null
-  const envForLog: { commit: string } | undefined =
-    env?.commit !== null && env?.commit !== undefined
-      ? { commit: env.commit }
-      : undefined;
+  // build the env object: pass through if provided
+  const envForLog: Partial<Environment> | undefined = env ?? undefined;
 
   // generate the log methods with trail/env injected
   const logMethods = {

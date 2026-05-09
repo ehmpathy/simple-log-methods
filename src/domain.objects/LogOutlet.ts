@@ -1,3 +1,5 @@
+import type { Environment } from 'sdk-environment';
+
 import type { LogLevel } from './constants';
 
 /**
@@ -9,6 +11,7 @@ export interface LogEvent {
   timestamp: string;
   message: string;
   metadata?: Record<string, unknown>;
+  env?: Partial<Environment>;
 }
 
 /**

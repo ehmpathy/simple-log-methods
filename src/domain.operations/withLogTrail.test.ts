@@ -1,9 +1,14 @@
+import type { Environment } from 'sdk-environment';
+
 import { LogLevel } from '@src/domain.objects/constants';
+import type { ContextLogTrail } from '@src/domain.objects/LogTrail';
 
 import type { LogMethods } from './genLogMethods';
 import { withLogTrail } from './withLogTrail';
 
-const createMockLogMethods = (): LogMethods & {
+const createMockLogMethods = (options?: {
+  env?: { commit: string };
+}): LogMethods & {
   debug: jest.Mock;
   info: jest.Mock;
   warn: jest.Mock;
@@ -14,6 +19,7 @@ const createMockLogMethods = (): LogMethods & {
   warn: jest.fn(),
   error: jest.fn(),
   _: Object.freeze({ level: LogLevel.DEBUG }),
+  env: options?.env,
 });
 
 describe('withLogTrail', () => {
@@ -322,6 +328,46 @@ describe('withLogTrail', () => {
           expect.any(Object),
         );
       });
+    });
+  });
+
+  describe('env inheritance', () => {
+    it('should pass env from context.log to nested log methods', () => {
+      const mockLog = createMockLogMethods({ env: { commit: 'main@abc123' } });
+      let capturedEnv: Partial<Environment> | undefined;
+
+      const testFn = function testFunction(
+        input: string,
+        context: ContextLogTrail,
+      ) {
+        capturedEnv = context.log.env;
+        return input.toUpperCase();
+      };
+      const wrapped = withLogTrail(testFn, {});
+
+      wrapped('hello', { log: mockLog });
+
+      // verify env is passed through to nested context
+      expect(capturedEnv).toEqual({ commit: 'main@abc123' });
+    });
+
+    it('should preserve env when no env is provided', () => {
+      const mockLog = createMockLogMethods(); // no env
+      let capturedEnv: Partial<Environment> | undefined;
+
+      const testFn = function testFunction(
+        input: string,
+        context: ContextLogTrail,
+      ) {
+        capturedEnv = context.log.env;
+        return input.toUpperCase();
+      };
+      const wrapped = withLogTrail(testFn, {});
+
+      wrapped('hello', { log: mockLog });
+
+      // verify env is undefined when not provided
+      expect(capturedEnv).toBeUndefined();
     });
   });
 });
